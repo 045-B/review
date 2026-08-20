@@ -1,3 +1,6 @@
+Exit code: 0
+Wall time: 0.8 seconds
+Output:
 var defaults={
   accent:'#a8a8a8',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
@@ -148,6 +151,26 @@ document.getElementById('savePng').onclick=async function(){
   }catch(error){alert('PNG를 만들지 못했습니다. 이미지 용량을 줄여 다시 시도해주세요.')}
   finally{document.body.classList.remove('saving');button.disabled=false;button.textContent='PNG 저장';fitFrame()}
 };
+
+var mobileEditorToggle=document.getElementById('mobileEditorToggle');
+var mobileEditorClose=document.getElementById('mobileEditorClose');
+var editorPanel=document.getElementById('editorPanel');
+var editorBackdrop=document.getElementById('editorBackdrop');
+var mobileEditorMedia=window.matchMedia('(max-width:760px)');
+function setMobileEditor(open){
+  document.body.classList.toggle('editor-open',open);
+  editorPanel.classList.toggle('is-open',open);
+  mobileEditorToggle.setAttribute('aria-expanded',String(open));
+}
+mobileEditorToggle.onclick=function(){setMobileEditor(!editorPanel.classList.contains('is-open'))};
+mobileEditorClose.onclick=function(){setMobileEditor(false);mobileEditorToggle.focus({preventScroll:true})};
+editorBackdrop.onclick=function(){setMobileEditor(false);mobileEditorToggle.focus({preventScroll:true})};
+document.addEventListener('keydown',function(event){
+  if(event.key==='Escape'&&editorPanel.classList.contains('is-open')){setMobileEditor(false);mobileEditorToggle.focus({preventScroll:true})}
+});
+function resetMobileEditor(event){if(!event.matches)setMobileEditor(false)}
+if(mobileEditorMedia.addEventListener)mobileEditorMedia.addEventListener('change',resetMobileEditor);
+else mobileEditorMedia.addListener(resetMobileEditor);
 window.addEventListener('resize',fitFrame);
 render();
 
