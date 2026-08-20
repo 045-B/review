@@ -48,8 +48,11 @@ function renderReviews(){
   editors.querySelectorAll('[data-remove]').forEach(function(button){button.onclick=function(){if(state.reviewers.length===1)return alert('리뷰어는 한 명 이상 필요합니다.');state.reviewers=state.reviewers.filter(function(x){return x.id!==Number(button.dataset.remove)});save();renderReviews()}});
 }
 
+function hexToRgb(value){var hex=String(value||'').replace('#','');if(hex.length===3)hex=hex.split('').map(function(x){return x+x}).join('');var number=parseInt(hex,16);if(!Number.isFinite(number))return '168,168,168';return ((number>>16)&255)+','+((number>>8)&255)+','+(number&255)}
+
 function render(){
   sheet.style.setProperty('--accent',state.accent);
+  sheet.style.setProperty('--accent-rgb',hexToRgb(state.accent));
   sheet.style.setProperty('--sheet-font',fontFamilies[state.font]||fontFamilies.pretendard);
   sheet.style.backgroundColor=state.backgroundColor;
   document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand||'RE:FRAME'});
