@@ -25,7 +25,8 @@ function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state
 function imageFile(input,done){var file=input.files&&input.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){done(String(reader.result))};reader.readAsDataURL(file)}
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
 function cropOf(owner){return Object.assign({zoom:100,x:50,y:50},owner.crop||{})}
-function applyImageCrop(image,crop){if(!image)return;image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform='translate3d(0,0,0) scale('+(Number(crop.zoom)/100)+')';image.style.transformOrigin='50% 50%'}
+function cropTransform(crop){var scale=Math.max(1,Number(crop.zoom||100)/100),x=Number(crop.x),y=Number(crop.y);if(!Number.isFinite(x))x=50;if(!Number.isFinite(y))y=50;var moveX=(50-x)*(scale-1),moveY=(50-y)*(scale-1);return 'translate3d('+moveX+'%,'+moveY+'%,0) scale('+scale+')'}
+function applyImageCrop(image,crop){if(!image)return;image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform=cropTransform(crop);image.style.transformOrigin='50% 50%'}
 
 function renderReviewPreview(){
   document.getElementById('reviewsView').innerHTML=state.reviewers.map(function(r,index){
@@ -55,7 +56,7 @@ function render(){
   var heroLayer=document.getElementById('heroImageLayer');
   heroLayer.style.backgroundImage=state.heroImage?'url("'+state.heroImage+'")':'';
   heroLayer.style.backgroundPosition=state.heroCrop.x+'% '+state.heroCrop.y+'%';
-  heroLayer.style.transform='translate3d(0,0,0) scale('+(Number(state.heroCrop.zoom)/100)+')';
+  heroLayer.style.transform=cropTransform(state.heroCrop);
   heroLayer.style.transformOrigin='50% 50%';
   var poster=document.getElementById('posterView');
   poster.innerHTML=state.posterImage?'<img src="'+state.posterImage+'" alt="영화 포스터">':'<span>POSTER<br>IMAGE</span>';
@@ -85,7 +86,7 @@ function paintDirectImage(data){
   if(!data||!data.element)return;
   if(data.type==='hero'){
     data.element.style.backgroundPosition=data.crop.x+'% '+data.crop.y+'%';
-    data.element.style.transform='translate3d(0,0,0) scale('+(Number(data.crop.zoom)/100)+')';
+    data.element.style.transform=cropTransform(data.crop);
     data.element.style.transformOrigin='50% 50%';
   }else applyImageCrop(data.element,data.crop);
   document.getElementById('directEditStatus').textContent=data.label+' 선택됨 · '+data.crop.zoom+'% · 드래그 이동 · 휠 확대/축소 · 방향키 미세조정';
