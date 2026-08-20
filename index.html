@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="studio-header">
-    <div><strong data-brand>RE:FRAME</strong><span>MOVIE REVIEW SHEET MAKER</span></div>
+    <div><strong>RE:FRAME</strong><span>MOVIE REVIEW SHEET MAKER</span></div>
     <p>모든 입력은 현재 브라우저에만 저장됩니다.</p>
     <div class="header-buttons"><button class="secondary" id="resetAll">초기화</button><button class="primary" id="savePng">PNG 저장</button></div>
   </header>
@@ -22,7 +22,7 @@
         <summary><b>01</b> 디자인과 이미지</summary>
         <div class="fields">
           <label>포인트 컬러<input type="color" id="accentInput" value="#edff57"></label>
-          <label>사이트 이름<input id="brandInput" maxlength="24" placeholder="RE:FRAME"></label>
+          <label>상단 RE:FRAME 문구<input id="brandInput" maxlength="24" placeholder="RE:FRAME"></label>
           <label class="upload">시트 배경 이미지<input type="file" id="backgroundUpload" accept="image/*"><span>이미지 선택</span></label>
           <label>배경 이미지 농도<input type="range" id="backgroundOpacityInput" min="0.05" max="0.65" step="0.05" value="0.22"></label>
           <button class="remove-background" id="removeBackground" type="button">배경 이미지 삭제</button>
@@ -89,7 +89,7 @@
             </section>
 
             <section class="reviews" id="reviewsView"></section>
-            <footer><strong data-brand>RE:FRAME</strong><span>OUR WORDS AFTER THE CREDITS</span><i id="reviewCountView">00 REVIEWS</i></footer>
+            <footer><strong>RE:FRAME</strong><span>OUR WORDS AFTER THE CREDITS</span><i id="reviewCountView">00 REVIEWS</i></footer>
           </div>
         </article>
       </div>
