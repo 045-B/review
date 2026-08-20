@@ -67,3 +67,8 @@
   .sheet{transform:scale(calc((100vw - 16px)/920));min-height:1360px}
 }
 @media(prefers-reduced-motion:reduce){.editor,.editor-backdrop{transition:none}}
+
+/* Unified text color and seamless hero transition */
+.sheet,.sheet *{color:var(--accent)!important}.sheet .reviews:before{color:var(--accent)!important}
+.sheet-hero:after{background:linear-gradient(0deg,rgba(var(--background-rgb),1) 0%,rgba(var(--background-rgb),.97) 14%,rgba(var(--background-rgb),.72) 36%,rgba(var(--background-rgb),.22) 60%,transparent 78%),linear-gradient(90deg,#000c 0,transparent 68%)}
+.question-block{grid-template-columns:180px minmax(0,1fr)}.question-block>strong{min-width:170px;padding:0 14px 0 4px;line-height:1.05;letter-spacing:-.08em;white-space:nowrap;overflow:visible}
