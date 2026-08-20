@@ -22,6 +22,9 @@
         <summary><b>01</b> 디자인과 이미지</summary>
         <div class="fields">
           <label>포인트 컬러<input type="color" id="accentInput" value="#edff57"></label>
+          <label class="upload">시트 배경 이미지<input type="file" id="backgroundUpload" accept="image/*"><span>이미지 선택</span></label>
+          <label>배경 이미지 농도<input type="range" id="backgroundOpacityInput" min="0.05" max="0.65" step="0.05" value="0.22"></label>
+          <button class="remove-background" id="removeBackground" type="button">배경 이미지 삭제</button>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
           <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
           <label>상단 작은 문구<input id="topLineInput"></label>
@@ -59,6 +62,7 @@
       <div class="stage-note"><span>PREVIEW</span><p>완성본은 아래 시트 영역만 저장됩니다.</p></div>
       <div class="sheet-frame">
         <article class="sheet" id="captureSheet">
+          <div class="sheet-background" id="sheetBackground"></div>
           <header class="sheet-hero" id="sheetHero">
             <p id="topLineView"></p>
             <div class="hero-grain"></div>
