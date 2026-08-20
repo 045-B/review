@@ -1,5 +1,5 @@
 var defaults={
-  accent:'#edff57',brand:'999+',backgroundColor:'#050505',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
+  accent:'#edff57',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
   director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',
   tags:'군부물 · 아포칼립스 · 재난',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
@@ -13,10 +13,11 @@ try{state=Object.assign({},defaults,JSON.parse(localStorage.getItem('reframe-she
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
 
-var ids=['accent','backgroundColor','brand','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
-var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
+var ids=['accent','backgroundColor','font','brand','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
+var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',font:'fontInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
 var viewIds={title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
+var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state))}catch(error){}}
@@ -48,6 +49,7 @@ function renderReviews(){
 
 function render(){
   sheet.style.setProperty('--accent',state.accent);
+  sheet.style.setProperty('--sheet-font',fontFamilies[state.font]||fontFamilies.pretendard);
   sheet.style.backgroundColor=state.backgroundColor;
   document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand||'RE:FRAME'});
   var heroLayer=document.getElementById('heroImageLayer');
