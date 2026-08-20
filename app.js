@@ -1,5 +1,5 @@
 var defaults={
-  accent:'#edff57',backgroundImage:'',backgroundOpacity:'0.22',heroImage:'',posterImage:'',topLine:'ha ha ha, hu hu hu — after the credits',
+  accent:'#edff57',brand:'RE:FRAME',backgroundImage:'',backgroundOpacity:'0.22',heroImage:'',posterImage:'',topLine:'ha ha ha, hu hu hu — after the credits',
   title:'애프터 이미지',engTitle:'EVERYTHING EVERYWHERE ALL AT ONCE',year:'2026',genre:'드라마 · 성장',
   director:'감독 이도윤',synopsis:'끝난 줄 알았던 장면은 마음속에서 다시 시작된다. 서로 다른 기억을 품은 사람들이 한 편의 영화를 보고 각자의 언어로 남긴 기록.',
   tags:'#영화리뷰 #시네마 #기록',question:'이 영화를 고른 이유는?',answer:'한 장면을 함께 보았지만 우리가 기억하는 순간은 모두 다르다. 영화가 끝난 뒤에도 오래 남은 감정과 질문을 기록해 보세요.',
@@ -12,8 +12,8 @@ var state;
 try{state=Object.assign({},defaults,JSON.parse(localStorage.getItem('reframe-sheet-v2')||'{}'))}catch(error){state=JSON.parse(JSON.stringify(defaults))}
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 
-var ids=['accent','topLine','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
-var inputIds={accent:'accentInput',topLine:'topLineInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
+var ids=['accent','brand','topLine','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
+var inputIds={accent:'accentInput',brand:'brandInput',topLine:'topLineInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
 var viewIds={topLine:'topLineView',title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
 
@@ -33,7 +33,7 @@ function renderReviewPreview(){
 function renderReviews(){
   var editors=document.getElementById('reviewerEditors');
   editors.innerHTML=state.reviewers.map(function(r,index){
-    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'"></label><label>프로필 이미지<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body">'+esc(r.body)+'</textarea></label></section>';
+    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'"></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body">'+esc(r.body)+'</textarea></label></section>';
   }).join('');
   renderReviewPreview();
   editors.querySelectorAll('[data-review]').forEach(function(field){field.oninput=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.review)});r[field.dataset.key]=field.value;save();renderReviewPreview()}});
@@ -43,6 +43,7 @@ function renderReviews(){
 
 function render(){
   sheet.style.setProperty('--accent',state.accent);
+  document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand||'RE:FRAME'});
   var background=document.getElementById('sheetBackground');
   background.style.backgroundImage=state.backgroundImage?'url("'+state.backgroundImage+'")':'';
   background.style.opacity=state.backgroundImage?state.backgroundOpacity:'0';
