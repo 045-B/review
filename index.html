@@ -26,9 +26,7 @@
           <label>상단 RE:FRAME 문구<input id="brandInput" maxlength="24" placeholder="RE:FRAME"></label>
           <label>시트 배경색<input type="color" id="backgroundColorInput" value="#050505"></label>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
-          <button class="image-edit-trigger" type="button" data-image-editor="hero">메인 이미지 편집창 열기</button>
           <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
-          <button class="image-edit-trigger" type="button" data-image-editor="poster">포스터 편집창 열기</button>
         </div>
       </details>
 
@@ -60,7 +58,7 @@
     </aside>
 
     <section class="stage">
-      <div class="stage-note"><span>PREVIEW</span><p>완성본은 아래 시트 영역만 저장됩니다.</p></div>
+      <div class="stage-note"><span>PREVIEW</span><p id="directEditStatus">이미지 클릭 · 드래그 이동 · 휠 확대/축소 · 방향키 미세조정</p></div>
       <div class="sheet-frame">
         <article class="sheet" id="captureSheet">
           <header class="sheet-hero" id="sheetHero">
@@ -95,18 +93,6 @@
     </section>
   </main>
 
-  <div class="image-editor-modal" id="imageEditorModal" hidden>
-    <section class="image-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="imageEditorTitle">
-      <header><div><span>IMAGE EDITOR</span><h2 id="imageEditorTitle">이미지 편집</h2></div><button type="button" id="imageEditorClose" aria-label="닫기">×</button></header>
-      <div class="image-editor-workspace"><div class="image-editor-viewport" id="imageEditorViewport"><img id="imageEditorPreview" alt="편집 이미지 미리보기"></div></div>
-      <div class="image-editor-controls">
-        <label>확대 <output id="imageZoomValue">100%</output><input type="range" id="imageZoomInput" min="100" max="220" value="100"></label>
-        <label>좌우 위치<input type="range" id="imageXInput" min="0" max="100" value="50"></label>
-        <label>상하 위치<input type="range" id="imageYInput" min="0" max="100" value="50"></label>
-      </div>
-      <footer><button class="secondary" type="button" id="imageEditorCancel">취소</button><button class="primary" type="button" id="imageEditorApply">적용</button></footer>
-    </section>
-  </div>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="app.js"></script>
 </body>
