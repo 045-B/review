@@ -1,3 +1,6 @@
+Exit code: 0
+Wall time: 0.8 seconds
+Output:
 <!doctype html>
 <html lang="ko">
 <head>
@@ -17,14 +20,15 @@
 </head>
 <body>
   <header class="studio-header">
-    <div><strong>빵리뷰 메이커</strong><span>MOVIE REVIEW SHEET MAKER</span></div>
+    <button class="mobile-editor-toggle" id="mobileEditorToggle" type="button" aria-controls="editorPanel" aria-expanded="false">☰ 설정</button>
+    <div class="studio-brand"><strong>빵리뷰 메이커</strong><span>MOVIE REVIEW SHEET MAKER</span></div>
     <p>모든 입력은 현재 브라우저에만 저장됩니다.</p>
     <div class="header-buttons"><button class="secondary" id="resetAll">초기화</button><button class="primary" id="savePng">PNG 저장</button></div>
   </header>
 
   <main class="workspace">
-    <aside class="editor">
-      <div class="editor-intro"><span>LIVE EDITOR</span><h1>영화 리뷰 시트</h1><p>입력하는 즉시 오른쪽 시트에 반영됩니다.</p></div>
+    <aside class="editor" id="editorPanel" aria-label="리뷰 시트 설정">
+      <div class="editor-intro"><span>LIVE EDITOR</span><h1>영화 리뷰 시트</h1><p>입력하는 즉시 오른쪽 시트에 반영됩니다.</p><button class="mobile-editor-close" id="mobileEditorClose" type="button" aria-label="설정 닫기">×</button></div>
 
       <details open>
         <summary><b>01</b> 디자인과 이미지</summary>
@@ -66,6 +70,7 @@
         <button class="add-reviewer" id="addReviewer">＋ 리뷰어 추가</button>
       </details>
     </aside>
+    <button class="editor-backdrop" id="editorBackdrop" type="button" aria-label="설정 닫기"></button>
 
     <section class="stage">
       <div class="stage-note"><span>PREVIEW</span><p id="directEditStatus">이미지 클릭 · 드래그 이동 · 휠 확대/축소 · 방향키 미세조정</p></div>
