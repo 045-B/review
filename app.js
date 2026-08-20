@@ -108,6 +108,21 @@ function openMovie(){
   });
 }
 document.getElementById('addMovie').onclick=addNew;
+document.getElementById('exportImage').onclick=async function(){
+  var button=this;
+  if(!window.html2canvas){alert('이미지 저장 기능을 불러오는 중입니다. 잠시 후 다시 눌러주세요.');return}
+  button.disabled=true;button.textContent='만드는 중…';document.body.classList.add('exporting');
+  try{
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
+    var canvas=await window.html2canvas(document.body,{backgroundColor:'#090909',scale:Math.min(2,2800/window.innerWidth),useCORS:true,logging:false,windowWidth:document.documentElement.scrollWidth,windowHeight:document.documentElement.scrollHeight});
+    var link=document.createElement('a');
+    link.download='reframe-archive-'+new Date().toISOString().slice(0,10)+'.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(error){alert('이미지를 만들지 못했습니다. 업로드한 이미지의 크기를 줄인 뒤 다시 시도해주세요.')}
+  finally{document.body.classList.remove('exporting');button.disabled=false;button.textContent='↓ 이미지 저장'}
+};
 document.getElementById('heroUpload').onchange=function(event){
   readImage(event.target,function(value){heroImage=value;save();render()});
 };
