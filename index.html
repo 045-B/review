@@ -24,10 +24,7 @@
         <div class="fields">
           <label>포인트 컬러<input type="color" id="accentInput" value="#edff57"></label>
           <label>상단 RE:FRAME 문구<input id="brandInput" maxlength="24" placeholder="RE:FRAME"></label>
-          <label class="upload">시트 배경 이미지<input type="file" id="backgroundUpload" accept="image/*"><span>이미지 선택</span></label>
-          <button class="image-edit-trigger" type="button" data-image-editor="background">배경 이미지 편집창 열기</button>
-          <label>배경 이미지 농도<input type="range" id="backgroundOpacityInput" min="0.05" max="0.65" step="0.05" value="0.22"></label>
-          <button class="remove-background" id="removeBackground" type="button">배경 이미지 삭제</button>
+          <label>시트 배경색<input type="color" id="backgroundColorInput" value="#050505"></label>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
           <button class="image-edit-trigger" type="button" data-image-editor="hero">메인 이미지 편집창 열기</button>
           <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
@@ -67,7 +64,6 @@
       <div class="stage-note"><span>PREVIEW</span><p>완성본은 아래 시트 영역만 저장됩니다.</p></div>
       <div class="sheet-frame">
         <article class="sheet" id="captureSheet">
-          <div class="sheet-background" id="sheetBackground"></div>
           <header class="sheet-hero" id="sheetHero">
             <div class="hero-image-layer" id="heroImageLayer"></div>
             <nav class="sheet-nav"><strong data-brand>RE:FRAME</strong><span>영화</span><span>리뷰</span><span>나의 리스트</span></nav>
