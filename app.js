@@ -1,5 +1,5 @@
 var defaults={
-  accent:'#edff57',brand:'RE:FRAME',backgroundColor:'#050505',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},topLine:'ha ha ha, hu hu hu — after the credits',
+  accent:'#edff57',brand:'RE:FRAME',backgroundColor:'#050505',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'애프터 이미지',engTitle:'EVERYTHING EVERYWHERE ALL AT ONCE',year:'2026',genre:'드라마 · 성장',
   director:'감독 이도윤',synopsis:'끝난 줄 알았던 장면은 마음속에서 다시 시작된다. 서로 다른 기억을 품은 사람들이 한 편의 영화를 보고 각자의 언어로 남긴 기록.',
   tags:'#영화리뷰 #시네마 #기록',question:'이 영화를 고른 이유는?',answer:'한 장면을 함께 보았지만 우리가 기억하는 순간은 모두 다르다. 영화가 끝난 뒤에도 오래 남은 감정과 질문을 기록해 보세요.',
@@ -13,9 +13,9 @@ try{state=Object.assign({},defaults,JSON.parse(localStorage.getItem('reframe-she
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
 
-var ids=['accent','backgroundColor','brand','topLine','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
-var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',brand:'brandInput',topLine:'topLineInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
-var viewIds={topLine:'topLineView',title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',question:'questionView',answer:'answerView'};
+var ids=['accent','backgroundColor','brand','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
+var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
+var viewIds={title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
 
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
