@@ -8,11 +8,12 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar"><a class="logo" href="#top">RE:FRAME</a><nav><a href="#reviews">리뷰</a><a href="#archive">보관함</a></nav><button class="add-button" id="addMovie">＋ 영화 추가</button></header>
+  <header class="topbar"><a class="logo" href="#top">RE:FRAME</a><nav><a href="#reviews">리뷰</a><a href="#archive">보관함</a></nav><div class="header-actions"><button class="export-button" id="exportImage">↓ 이미지 저장</button><button class="add-button" id="addMovie">＋ 영화 추가</button></div></header>
   <section class="hero" id="top"><div class="hero-art" id="heroArt"></div><div class="hero-shade"></div><div class="hero-copy"><p class="eyebrow">FEATURED REVIEW ARCHIVE</p><h1>장면이 끝난 뒤,<br>우리의 이야기가 시작된다.</h1><p class="hero-description">한 편의 영화를 여러 시선으로 기록하는 개인 영화 리뷰 아카이브.</p><div class="hero-actions"><a href="#reviews">리뷰 보기</a><label class="hero-upload">메인 이미지 변경<input type="file" accept="image/*" id="heroUpload"></label></div></div></section>
   <section class="content" id="reviews"><div class="section-title"><div><span>NOW SHOWING</span><h2>최근 리뷰</h2></div><p id="filmCount"></p></div><div class="film-row" id="filmRow"></div></section>
   <section class="archive" id="archive"><p>MY CINEMA ARCHIVE</p><h2>좋았던 장면을<br>여러 사람의 언어로.</h2><div><strong id="statFilms">0</strong><span>FILMS</span><strong id="statReviews">0</strong><span>REVIEWS</span></div></section>
   <div id="modalRoot"></div>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
