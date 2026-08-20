@@ -1,5 +1,5 @@
 var defaults={
-  accent:'#edff57',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
+  accent:'#a8a8a8',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
   director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',
   tags:'군부물 · 아포칼립스 · 재난',questionNumber:'Q1',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
@@ -10,6 +10,7 @@ var defaults={
 };
 var state;
 try{state=Object.assign({},defaults,JSON.parse(localStorage.getItem('reframe-sheet-v2')||'{}'))}catch(error){state=JSON.parse(JSON.stringify(defaults))}
+if(state.accent==='#edff57')state.accent='#a8a8a8';
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
 
@@ -24,7 +25,7 @@ function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state
 function imageFile(input,done){var file=input.files&&input.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){done(String(reader.result))};reader.readAsDataURL(file)}
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
 function cropOf(owner){return Object.assign({zoom:100,x:50,y:50},owner.crop||{})}
-function applyImageCrop(image,crop){if(!image)return;image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform='scale('+(Number(crop.zoom)/100)+')';image.style.transformOrigin=crop.x+'% '+crop.y+'%'}
+function applyImageCrop(image,crop){if(!image)return;image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform='translate3d(0,0,0) scale('+(Number(crop.zoom)/100)+')';image.style.transformOrigin='50% 50%'}
 
 function renderReviewPreview(){
   document.getElementById('reviewsView').innerHTML=state.reviewers.map(function(r,index){
@@ -54,8 +55,8 @@ function render(){
   var heroLayer=document.getElementById('heroImageLayer');
   heroLayer.style.backgroundImage=state.heroImage?'url("'+state.heroImage+'")':'';
   heroLayer.style.backgroundPosition=state.heroCrop.x+'% '+state.heroCrop.y+'%';
-  heroLayer.style.transform='scale('+(Number(state.heroCrop.zoom)/100)+')';
-  heroLayer.style.transformOrigin=state.heroCrop.x+'% '+state.heroCrop.y+'%';
+  heroLayer.style.transform='translate3d(0,0,0) scale('+(Number(state.heroCrop.zoom)/100)+')';
+  heroLayer.style.transformOrigin='50% 50%';
   var poster=document.getElementById('posterView');
   poster.innerHTML=state.posterImage?'<img src="'+state.posterImage+'" alt="영화 포스터">':'<span>POSTER<br>IMAGE</span>';
   applyImageCrop(poster.querySelector('img'),state.posterCrop);
@@ -84,8 +85,8 @@ function paintDirectImage(data){
   if(!data||!data.element)return;
   if(data.type==='hero'){
     data.element.style.backgroundPosition=data.crop.x+'% '+data.crop.y+'%';
-    data.element.style.transform='scale('+(Number(data.crop.zoom)/100)+')';
-    data.element.style.transformOrigin=data.crop.x+'% '+data.crop.y+'%';
+    data.element.style.transform='translate3d(0,0,0) scale('+(Number(data.crop.zoom)/100)+')';
+    data.element.style.transformOrigin='50% 50%';
   }else applyImageCrop(data.element,data.crop);
   document.getElementById('directEditStatus').textContent=data.label+' 선택됨 · '+data.crop.zoom+'% · 드래그 이동 · 휠 확대/축소 · 방향키 미세조정';
 }
