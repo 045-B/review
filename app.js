@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.8 seconds
-Output:
 var defaults={
   accent:'#a8a8a8',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
@@ -173,4 +170,3 @@ if(mobileEditorMedia.addEventListener)mobileEditorMedia.addEventListener('change
 else mobileEditorMedia.addListener(resetMobileEditor);
 window.addEventListener('resize',fitFrame);
 render();
-
