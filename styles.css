@@ -27,6 +27,9 @@
 /* Direct image manipulation */
 .direct-edit-image{pointer-events:auto!important;cursor:grab;touch-action:none;user-select:none;transition:none!important}.direct-edit-image:active{cursor:grabbing}.is-direct-active{outline:4px solid var(--accent);outline-offset:-4px}.sheet-hero:after{pointer-events:none}.saving .is-direct-active{outline:0}.saving .direct-edit-image{cursor:default}.stage-note p{max-width:520px;text-align:right;line-height:1.4}
 
-/* Aligned movie details */
-.movie-meta{width:100%;max-width:520px;display:grid;grid-template-columns:70px minmax(0,1fr) 80px;gap:0;align-items:center;margin:18px 0 14px}.movie-meta span{min-width:0;display:block;padding:0 14px;border:0;border-right:1px solid #555;border-radius:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.movie-meta span:first-child{padding-left:0;text-align:left}.movie-meta span:last-child{padding-right:0;border-right:0;text-align:right}
+/* Compact, vertically balanced movie details */
+.movie-meta{width:max-content;max-width:100%;display:inline-flex;align-items:center;gap:0;margin:18px 0 14px}.movie-meta span{min-width:0;height:13px;display:inline-flex;align-items:center;padding:0 10px;border:0;border-right:1px solid #555;border-radius:0;line-height:13px;text-align:left;white-space:nowrap;overflow:visible;text-overflow:clip}.movie-meta span:first-child{padding-left:0}.movie-meta span:last-child{padding-right:0;border-right:0}
+
+/* Sheet font picker */
+@font-face{font-family:RIDIBatang;src:url('https://ridicorp.com/wp-content/themes/ridicorp/css/font/RIDIBatang.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}.sheet{--sheet-font:Pretendard,sans-serif;font-family:var(--sheet-font)}.sheet,.sheet *{font-family:var(--sheet-font)!important}.fields select{width:100%;padding:9px 10px;border:1px solid #d5d5d5;border-radius:2px;color:#222;background:#fff;font:inherit}.fields select:focus{outline:2px solid #111;outline-offset:1px}
 
