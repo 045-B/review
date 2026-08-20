@@ -3,16 +3,92 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="한 편의 영화를 여러 사람의 시선으로 기록하는 영화 리뷰 아카이브">
-  <title>RE:FRAME — 함께 쓰는 영화 리뷰</title>
+  <meta name="description" content="누구나 편집하고 한 장의 PNG로 저장하는 영화 리뷰 시트">
+  <title>RE:FRAME — Movie Review Sheet Maker</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar"><a class="logo" href="#top">RE:FRAME</a><nav><a href="#reviews">리뷰</a><a href="#archive">보관함</a></nav><div class="header-actions"><button class="export-button" id="exportImage">↓ 이미지 저장</button><button class="add-button" id="addMovie">＋ 영화 추가</button></div></header>
-  <section class="hero" id="top"><div class="hero-art" id="heroArt"></div><div class="hero-shade"></div><div class="hero-copy"><p class="eyebrow">FEATURED REVIEW ARCHIVE</p><h1>장면이 끝난 뒤,<br>우리의 이야기가 시작된다.</h1><p class="hero-description">한 편의 영화를 여러 시선으로 기록하는 개인 영화 리뷰 아카이브.</p><div class="hero-actions"><a href="#reviews">리뷰 보기</a><label class="hero-upload">메인 이미지 변경<input type="file" accept="image/*" id="heroUpload"></label></div></div></section>
-  <section class="content" id="reviews"><div class="section-title"><div><span>NOW SHOWING</span><h2>최근 리뷰</h2></div><p id="filmCount"></p></div><div class="film-row" id="filmRow"></div></section>
-  <section class="archive" id="archive"><p>MY CINEMA ARCHIVE</p><h2>좋았던 장면을<br>여러 사람의 언어로.</h2><div><strong id="statFilms">0</strong><span>FILMS</span><strong id="statReviews">0</strong><span>REVIEWS</span></div></section>
-  <div id="modalRoot"></div>
+  <header class="studio-header">
+    <div><strong>RE:FRAME</strong><span>MOVIE REVIEW SHEET MAKER</span></div>
+    <p>모든 입력은 현재 브라우저에만 저장됩니다.</p>
+    <div class="header-buttons"><button class="secondary" id="resetAll">초기화</button><button class="primary" id="savePng">PNG 저장</button></div>
+  </header>
+
+  <main class="workspace">
+    <aside class="editor">
+      <div class="editor-intro"><span>LIVE EDITOR</span><h1>영화 리뷰 시트</h1><p>입력하는 즉시 오른쪽 시트에 반영됩니다.</p></div>
+
+      <details open>
+        <summary><b>01</b> 디자인과 이미지</summary>
+        <div class="fields">
+          <label>포인트 컬러<input type="color" id="accentInput" value="#edff57"></label>
+          <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
+          <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
+          <label>상단 작은 문구<input id="topLineInput"></label>
+        </div>
+      </details>
+
+      <details open>
+        <summary><b>02</b> 영화 정보</summary>
+        <div class="fields">
+          <label>영화 제목<input id="titleInput"></label>
+          <label>영문 제목<input id="engTitleInput"></label>
+          <div class="two"><label>개봉 연도<input id="yearInput"></label><label>장르<input id="genreInput"></label></div>
+          <label>감독 / 제작<input id="directorInput"></label>
+          <label>영화 소개<textarea id="synopsisInput"></textarea></label>
+          <label>태그<input id="tagsInput" placeholder="#드라마 #성장 #여름"></label>
+        </div>
+      </details>
+
+      <details open>
+        <summary><b>03</b> 핵심 질문</summary>
+        <div class="fields">
+          <label>질문<input id="questionInput"></label>
+          <label>질문에 대한 소개<textarea id="answerInput"></textarea></label>
+        </div>
+      </details>
+
+      <details open>
+        <summary><b>04</b> 리뷰어</summary>
+        <div id="reviewerEditors"></div>
+        <button class="add-reviewer" id="addReviewer">＋ 리뷰어 추가</button>
+      </details>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-note"><span>PREVIEW</span><p>완성본은 아래 시트 영역만 저장됩니다.</p></div>
+      <div class="sheet-frame">
+        <article class="sheet" id="captureSheet">
+          <header class="sheet-hero" id="sheetHero">
+            <p id="topLineView"></p>
+            <div class="hero-grain"></div>
+          </header>
+
+          <div class="sheet-body">
+            <section class="movie-overview">
+              <div class="poster-view" id="posterView"><span>POSTER<br>IMAGE</span></div>
+              <div class="movie-copy">
+                <p class="section-label">FEATURED FILM <i>01</i></p>
+                <h2 id="titleView"></h2>
+                <p class="english-title" id="engTitleView"></p>
+                <p class="movie-meta"><span id="yearView"></span><span id="genreView"></span><span id="directorView"></span></p>
+                <p class="synopsis" id="synopsisView"></p>
+                <p class="tags" id="tagsView"></p>
+              </div>
+            </section>
+
+            <section class="question-block">
+              <strong>Q1</strong>
+              <div><p class="section-label">QUESTION OF THE FILM</p><h3 id="questionView"></h3><p id="answerView"></p></div>
+            </section>
+
+            <section class="reviews" id="reviewsView"></section>
+            <footer><strong>RE:FRAME</strong><span>OUR WORDS AFTER THE CREDITS</span><i id="reviewCountView">00 REVIEWS</i></footer>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="app.js"></script>
 </body>
