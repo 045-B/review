@@ -1,11 +1,11 @@
 var defaults={
-  accent:'#edff57',brand:'RE:FRAME',backgroundColor:'#050505',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
-  title:'애프터 이미지',engTitle:'EVERYTHING EVERYWHERE ALL AT ONCE',year:'2026',genre:'드라마 · 성장',
-  director:'감독 이도윤',synopsis:'끝난 줄 알았던 장면은 마음속에서 다시 시작된다. 서로 다른 기억을 품은 사람들이 한 편의 영화를 보고 각자의 언어로 남긴 기록.',
-  tags:'#영화리뷰 #시네마 #기록',question:'이 영화를 고른 이유는?',answer:'한 장면을 함께 보았지만 우리가 기억하는 순간은 모두 다르다. 영화가 끝난 뒤에도 오래 남은 감정과 질문을 기록해 보세요.',
+  accent:'#edff57',brand:'999+',backgroundColor:'#050505',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
+  title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
+  director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',
+  tags:'군부물 · 아포칼립스 · 재난',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
   reviewers:[
-    {id:1,name:'타카미네 미도리',role:'첫 번째 관객',rating:'★ 4.7',body:'그러니까… 처음에는 별일 없는 이야기라고 생각했어요. 그런데 크레딧이 올라간 뒤에도 어떤 표정이 계속 떠오르더라고요.\n말로 설명하기 어려운 순간을 오래 바라보게 만드는 영화였습니다.',avatar:''},
-    {id:2,name:'미즈모토 스미레',role:'두 번째 관객',rating:'★ 4.5',body:'같은 장면을 보고도 전혀 다른 이야기를 나눌 수 있다는 게 좋았어요. 인물의 선택보다 그 사이의 침묵이 더 오래 기억에 남습니다.\n다시 본다면 처음과는 다른 영화를 만나게 될 것 같아요.',avatar:''}
+    {id:1,name:'9',role:'불러줘, 이름.',rating:'★ 5',body:'I figured if I was gonna become no one anyway, might as well carry the one name that meant something.\n어차피 아무도 아닌 사람이 될 거면, 의미 있는 이름 하나쯤은 들고 가도 되지 않을까 싶었어.',avatar:'',crop:{zoom:100,x:50,y:50}},
+    {id:2,name:'99',role:'붙여줘, 이름.',rating:'★ 5',body:'Found each other pretty well. Two nobodies.\n잘 만났네. 아무도 아닌 사람끼리.',avatar:'',crop:{zoom:100,x:50,y:50}}
   ]
 };
 var state;
