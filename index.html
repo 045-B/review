@@ -25,10 +25,13 @@
           <label>포인트 컬러<input type="color" id="accentInput" value="#edff57"></label>
           <label>상단 RE:FRAME 문구<input id="brandInput" maxlength="24" placeholder="RE:FRAME"></label>
           <label class="upload">시트 배경 이미지<input type="file" id="backgroundUpload" accept="image/*"><span>이미지 선택</span></label>
+          <div class="crop-tools"><label>배경 확대<input type="range" id="backgroundZoomInput" min="100" max="220" value="100"></label><label>좌우<input type="range" id="backgroundXInput" min="0" max="100" value="50"></label><label>상하<input type="range" id="backgroundYInput" min="0" max="100" value="50"></label></div>
           <label>배경 이미지 농도<input type="range" id="backgroundOpacityInput" min="0.05" max="0.65" step="0.05" value="0.22"></label>
           <button class="remove-background" id="removeBackground" type="button">배경 이미지 삭제</button>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
+          <div class="crop-tools"><label>메인 확대<input type="range" id="heroZoomInput" min="100" max="220" value="100"></label><label>좌우<input type="range" id="heroXInput" min="0" max="100" value="50"></label><label>상하<input type="range" id="heroYInput" min="0" max="100" value="50"></label></div>
           <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
+          <div class="crop-tools"><label>포스터 확대<input type="range" id="posterZoomInput" min="100" max="220" value="100"></label><label>좌우<input type="range" id="posterXInput" min="0" max="100" value="50"></label><label>상하<input type="range" id="posterYInput" min="0" max="100" value="50"></label></div>
           <label>상단 작은 문구<input id="topLineInput"></label>
         </div>
       </details>
@@ -66,6 +69,7 @@
         <article class="sheet" id="captureSheet">
           <div class="sheet-background" id="sheetBackground"></div>
           <header class="sheet-hero" id="sheetHero">
+            <div class="hero-image-layer" id="heroImageLayer"></div>
             <nav class="sheet-nav"><strong data-brand>RE:FRAME</strong><span>영화</span><span>리뷰</span><span>나의 리스트</span></nav>
             <p id="topLineView"></p>
             <div class="hero-grain"></div>
