@@ -52,7 +52,7 @@ function hexToRgb(value){var hex=String(value||'').replace('#','');if(hex.length
 
 function render(){
   sheet.style.setProperty('--accent',state.accent);
-  sheet.style.setProperty('--accent-rgb',hexToRgb(state.accent));
+  sheet.style.setProperty('--background-rgb',hexToRgb(state.backgroundColor));
   sheet.style.setProperty('--sheet-font',fontFamilies[state.font]||fontFamilies.pretendard);
   sheet.style.backgroundColor=state.backgroundColor;
   document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand||'RE:FRAME'});
