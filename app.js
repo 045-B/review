@@ -1,5 +1,5 @@
 var defaults={
-  accent:'#edff57',heroImage:'',posterImage:'',topLine:'ha ha ha, hu hu hu — after the credits',
+  accent:'#edff57',backgroundImage:'',backgroundOpacity:'0.22',heroImage:'',posterImage:'',topLine:'ha ha ha, hu hu hu — after the credits',
   title:'애프터 이미지',engTitle:'EVERYTHING EVERYWHERE ALL AT ONCE',year:'2026',genre:'드라마 · 성장',
   director:'감독 이도윤',synopsis:'끝난 줄 알았던 장면은 마음속에서 다시 시작된다. 서로 다른 기억을 품은 사람들이 한 편의 영화를 보고 각자의 언어로 남긴 기록.',
   tags:'#영화리뷰 #시네마 #기록',question:'이 영화를 고른 이유는?',answer:'한 장면을 함께 보았지만 우리가 기억하는 순간은 모두 다르다. 영화가 끝난 뒤에도 오래 남은 감정과 질문을 기록해 보세요.',
@@ -43,6 +43,9 @@ function renderReviews(){
 
 function render(){
   sheet.style.setProperty('--accent',state.accent);
+  var background=document.getElementById('sheetBackground');
+  background.style.backgroundImage=state.backgroundImage?'url("'+state.backgroundImage+'")':'';
+  background.style.opacity=state.backgroundImage?state.backgroundOpacity:'0';
   document.getElementById('sheetHero').style.backgroundImage=state.heroImage?'url("'+state.heroImage+'")':'';
   var poster=document.getElementById('posterView');
   poster.innerHTML=state.posterImage?'<img src="'+state.posterImage+'" alt="영화 포스터">':'<span>POSTER<br>IMAGE</span>';
@@ -57,6 +60,11 @@ ids.forEach(function(key){
 });
 document.getElementById('heroUpload').onchange=function(){imageFile(this,function(value){state.heroImage=value;save();render()})};
 document.getElementById('posterUpload').onchange=function(){imageFile(this,function(value){state.posterImage=value;save();render()})};
+document.getElementById('backgroundUpload').onchange=function(){imageFile(this,function(value){state.backgroundImage=value;save();render()})};
+var backgroundOpacityInput=document.getElementById('backgroundOpacityInput');
+backgroundOpacityInput.value=state.backgroundOpacity;
+backgroundOpacityInput.oninput=function(){state.backgroundOpacity=this.value;save();render()};
+document.getElementById('removeBackground').onclick=function(){state.backgroundImage='';document.getElementById('backgroundUpload').value='';save();render()};
 document.getElementById('addReviewer').onclick=function(){
   var number=state.reviewers.length+1;
   state.reviewers.push({id:Date.now(),name:'리뷰어 '+number,role:number+'번째 관객',rating:'★ 4.0',body:'영화를 보고 떠오른 감상과 오래 남은 장면을 자유롭게 적어주세요.',avatar:''});
@@ -66,6 +74,8 @@ document.getElementById('resetAll').onclick=function(){
   if(!confirm('입력한 내용을 모두 초기화할까요?'))return;
   state=JSON.parse(JSON.stringify(defaults));save();
   ids.forEach(function(key){document.getElementById(inputIds[key]).value=state[key]});
+  backgroundOpacityInput.value=state.backgroundOpacity;
+  document.getElementById('backgroundUpload').value='';
   render();
 };
 document.getElementById('savePng').onclick=async function(){
