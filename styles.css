@@ -12,3 +12,6 @@
 /* Wide review artwork */
 .reviews{grid-template-columns:1fr;gap:24px}.review-block{display:grid;grid-template-columns:240px 1fr;min-height:155px}.avatar-view{width:240px;height:155px}.avatar-view img{object-position:center;object-fit:cover}.review-bubble{min-height:155px;padding:23px 27px}.review-bubble p{font-size:10px;line-height:1.8}.sheet-nav strong,.sheet footer strong,.studio-header strong{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
+/* Larger featured poster */
+.movie-overview{grid-template-columns:180px 1fr;gap:34px;margin-top:-110px}.poster-view{width:180px;height:260px}.movie-copy{padding-top:105px}
+
