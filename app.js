@@ -2,7 +2,7 @@ var defaults={
   accent:'#edff57',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
   director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',
-  tags:'군부물 · 아포칼립스 · 재난',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
+  tags:'군부물 · 아포칼립스 · 재난',questionNumber:'Q1',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
   reviewers:[
     {id:1,name:'9',role:'불러줘, 이름.',rating:'★ 5',body:'I figured if I was gonna become no one anyway, might as well carry the one name that meant something.\n어차피 아무도 아닌 사람이 될 거면, 의미 있는 이름 하나쯤은 들고 가도 되지 않을까 싶었어.',avatar:'',crop:{zoom:100,x:50,y:50}},
     {id:2,name:'99',role:'붙여줘, 이름.',rating:'★ 5',body:'Found each other pretty well. Two nobodies.\n잘 만났네. 아무도 아닌 사람끼리.',avatar:'',crop:{zoom:100,x:50,y:50}}
@@ -13,9 +13,9 @@ try{state=Object.assign({},defaults,JSON.parse(localStorage.getItem('reframe-she
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
 
-var ids=['accent','backgroundColor','font','brand','title','engTitle','year','genre','director','synopsis','tags','question','answer'];
-var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',font:'fontInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
-var viewIds={title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',question:'questionView',answer:'answerView'};
+var ids=['accent','backgroundColor','font','brand','title','engTitle','year','genre','director','synopsis','tags','questionNumber','question','answer'];
+var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',font:'fontInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',questionNumber:'questionNumberInput',question:'questionInput',answer:'answerInput'};
+var viewIds={title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',questionNumber:'questionNumberView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
 var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
@@ -33,7 +33,6 @@ function renderReviewPreview(){
   }).join('');
   state.reviewers.forEach(function(r){applyImageCrop(document.querySelector('[data-review-image="'+r.id+'"] img'),cropOf(r))});
   setupDirectEditors();
-  document.getElementById('reviewCountView').textContent=String(state.reviewers.length).padStart(2,'0')+' REVIEWS';
   fitFrame();
 }
 function renderReviews(){
