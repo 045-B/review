@@ -52,6 +52,7 @@
       <details open>
         <summary><b>03</b> 핵심 질문</summary>
         <div class="fields">
+          <label>질문 상단 문구<input id="questionLabelInput" maxlength="40" placeholder="QUESTION OF THE FILM"></label>
           <label>질문 번호<input id="questionNumberInput" maxlength="8" placeholder="Q1"></label>
           <label>질문<input id="questionInput"></label>
           <label>질문에 대한 소개<textarea id="answerInput"></textarea></label>
@@ -90,7 +91,7 @@
 
             <section class="question-block">
               <strong id="questionNumberView">Q1</strong>
-              <div><p class="section-label">QUESTION OF THE FILM</p><h3 id="questionView"></h3><p id="answerView"></p></div>
+              <div><p class="section-label" id="questionLabelView">QUESTION OF THE FILM</p><h3 id="questionView"></h3><p id="answerView"></p></div>
             </section>
 
             <section class="reviews" id="reviewsView"></section>
