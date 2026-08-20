@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="누구나 편집하고 한 장의 PNG로 저장하는 영화 리뷰 시트">
   <title>빵리뷰 메이커 — Movie Review Sheet Maker</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
@@ -28,8 +29,8 @@
       <details open>
         <summary><b>01</b> 디자인과 이미지</summary>
         <div class="fields">
-          <label>포인트 컬러<input type="color" id="accentInput" value="#a8a8a8"></label>
           <label>상단 문구<input id="brandInput" maxlength="24" placeholder="상단 문구"></label>
+          <label>포인트 컬러 (폰트)<input type="color" id="accentInput" value="#a8a8a8"></label>
           <label>시트 배경색<input type="color" id="backgroundColorInput" value="#050505"></label>
           <label>폰트<select id="fontInput"><option value="pretendard">Pretendard</option><option value="noto">Noto Sans KR</option><option value="ridi">리디바탕</option><option value="galmuri">Galmuri</option></select></label>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
