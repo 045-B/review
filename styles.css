@@ -33,3 +33,6 @@
 /* Sheet font picker */
 @font-face{font-family:RIDIBatang;src:url('https://ridicorp.com/wp-content/themes/ridicorp/css/font/RIDIBatang.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}.sheet{--sheet-font:Pretendard,sans-serif;font-family:var(--sheet-font)}.sheet,.sheet *{font-family:var(--sheet-font)!important}.fields select{width:100%;padding:9px 10px;border:1px solid #d5d5d5;border-radius:2px;color:#222;background:#fff;font:inherit}.fields select:focus{outline:2px solid #111;outline-offset:1px}
 
+/* Tighter question-to-review spacing */
+.reviews{padding-top:40px}
+
