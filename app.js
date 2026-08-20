@@ -1,15 +1,20 @@
-var defaults={
-  accent:'#a8a8a8',brand:'999+',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
-  title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',
-  director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',
-  tags:'군부물 · 아포칼립스 · 재난',questionLabel:'QUESTION OF THE FILM',questionNumber:'Q1',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
+var examples={
+  brand:'999+',title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',tags:'군부물 · 아포칼립스 · 재난',questionLabel:'QUESTION OF THE FILM',questionNumber:'Q1',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
   reviewers:[
     {id:1,name:'9',role:'불러줘, 이름.',rating:'★ 5',body:'I figured if I was gonna become no one anyway, might as well carry the one name that meant something.\n어차피 아무도 아닌 사람이 될 거면, 의미 있는 이름 하나쯤은 들고 가도 되지 않을까 싶었어.',avatar:'',crop:{zoom:100,x:50,y:50}},
     {id:2,name:'99',role:'붙여줘, 이름.',rating:'★ 5',body:'Found each other pretty well. Two nobodies.\n잘 만났네. 아무도 아닌 사람끼리.',avatar:'',crop:{zoom:100,x:50,y:50}}
   ]
 };
+var defaults={
+  accent:'#a8a8a8',brand:'',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
+  title:'',engTitle:'',year:'',genre:'',director:'',synopsis:'',tags:'',questionLabel:'',questionNumber:'',question:'',answer:'',
+  reviewers:[
+    {id:1,name:'',role:'',rating:'',body:'',avatar:'',crop:{zoom:100,x:50,y:50}},
+    {id:2,name:'',role:'',rating:'',body:'',avatar:'',crop:{zoom:100,x:50,y:50}}
+  ]
+};
 var state;
-try{state=Object.assign({},defaults,JSON.parse(localStorage.getItem('reframe-sheet-v2')||'{}'))}catch(error){state=JSON.parse(JSON.stringify(defaults))}
+try{state=Object.assign(JSON.parse(JSON.stringify(defaults)),JSON.parse(localStorage.getItem('reframe-sheet-v2')||'{}'))}catch(error){state=JSON.parse(JSON.stringify(defaults))}
 if(state.accent==='#edff57')state.accent='#a8a8a8';
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
@@ -40,7 +45,8 @@ function renderReviewPreview(){
 function renderReviews(){
   var editors=document.getElementById('reviewerEditors');
   editors.innerHTML=state.reviewers.map(function(r,index){
-    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'"></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body">'+esc(r.body)+'</textarea></label></section>';
+    var sample=examples.reviewers[index]||{name:'리뷰어 이름',rating:'★ 5',role:'역할 / 한 줄 정보',body:'영화를 보고 떠오른 감상을 입력하세요.'};
+    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'" placeholder="'+esc(sample.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'" placeholder="'+esc(sample.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'" placeholder="'+esc(sample.role)+'"></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body" placeholder="'+esc(sample.body)+'">'+esc(r.body)+'</textarea></label></section>';
   }).join('');
   renderReviewPreview();
   editors.querySelectorAll('[data-review]').forEach(function(field){field.oninput=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.review)});r[field.dataset.key]=field.value;save();renderReviewPreview()}});
@@ -55,7 +61,7 @@ function render(){
   sheet.style.setProperty('--background-rgb',hexToRgb(state.backgroundColor));
   sheet.style.setProperty('--sheet-font',fontFamilies[state.font]||fontFamilies.pretendard);
   sheet.style.backgroundColor=state.backgroundColor;
-  document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand||'RE:FRAME'});
+  document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand});
   var heroLayer=document.getElementById('heroImageLayer');
   heroLayer.style.backgroundImage=state.heroImage?'url("'+state.heroImage+'")':'';
   heroLayer.style.backgroundPosition=state.heroCrop.x+'% '+state.heroCrop.y+'%';
@@ -70,6 +76,7 @@ function render(){
 
 ids.forEach(function(key){
   var input=document.getElementById(inputIds[key]);
+  if(examples[key]&&key!=='font')input.placeholder=examples[key];
   input.value=state[key];
   input.oninput=function(){state[key]=input.value;save();render()};
 });
@@ -127,14 +134,16 @@ document.addEventListener('keydown',function(event){
 });
 
 document.getElementById('addReviewer').onclick=function(){
-  var number=state.reviewers.length+1;
-  state.reviewers.push({id:Date.now(),name:'리뷰어 '+number,role:number+'번째 관객',rating:'★ 4.0',body:'영화를 보고 떠오른 감상과 오래 남은 장면을 자유롭게 적어주세요.',avatar:'',crop:{zoom:100,x:50,y:50}});
+  state.reviewers.push({id:Date.now(),name:'',role:'',rating:'',body:'',avatar:'',crop:{zoom:100,x:50,y:50}});
   save();renderReviews();
 };
 document.getElementById('resetAll').onclick=function(){
   if(!confirm('입력한 내용을 모두 초기화할까요?'))return;
-  state=JSON.parse(JSON.stringify(defaults));save();
+  try{localStorage.removeItem('reframe-sheet-v2')}catch(error){}
+  state=JSON.parse(JSON.stringify(defaults));activeDirectImage=null;
   ids.forEach(function(key){document.getElementById(inputIds[key]).value=state[key]});
+  document.getElementById('heroUpload').value='';document.getElementById('posterUpload').value='';
+  document.getElementById('directEditStatus').textContent='이미지 클릭 · 드래그 이동 · 휠 확대/축소 · 방향키 미세조정';
   render();
 };
 document.getElementById('savePng').onclick=async function(){
