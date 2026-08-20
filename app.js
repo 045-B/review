@@ -37,13 +37,12 @@ function renderReviewPreview(){
 function renderReviews(){
   var editors=document.getElementById('reviewerEditors');
   editors.innerHTML=state.reviewers.map(function(r,index){
-    var c=cropOf(r);
-    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'"></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><div class="crop-tools"><label>확대<input type="range" min="100" max="220" value="'+c.zoom+'" data-crop="'+r.id+'" data-crop-key="zoom"></label><label>좌우<input type="range" min="0" max="100" value="'+c.x+'" data-crop="'+r.id+'" data-crop-key="x"></label><label>상하<input type="range" min="0" max="100" value="'+c.y+'" data-crop="'+r.id+'" data-crop-key="y"></label></div><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body">'+esc(r.body)+'</textarea></label></section>';
+    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'"></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><button class="image-edit-trigger" type="button" data-edit-review-image="'+r.id+'">리뷰 이미지 편집창 열기</button><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body">'+esc(r.body)+'</textarea></label></section>';
   }).join('');
   renderReviewPreview();
   editors.querySelectorAll('[data-review]').forEach(function(field){field.oninput=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.review)});r[field.dataset.key]=field.value;save();renderReviewPreview()}});
-  editors.querySelectorAll('[data-avatar]').forEach(function(field){field.onchange=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.avatar)});imageFile(field,function(value){r.avatar=value;save();renderReviews()})}});
-  editors.querySelectorAll('[data-crop]').forEach(function(field){field.oninput=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.crop)});r.crop=cropOf(r);r.crop[field.dataset.cropKey]=Number(field.value);save();renderReviewPreview()}});
+  editors.querySelectorAll('[data-avatar]').forEach(function(field){field.onchange=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.avatar)});imageFile(field,function(value){r.avatar=value;save();renderReviews();openImageEditor('review',r.id)})}});
+  editors.querySelectorAll('[data-edit-review-image]').forEach(function(button){button.onclick=function(){openImageEditor('review',Number(button.dataset.editReviewImage))}});
   editors.querySelectorAll('[data-remove]').forEach(function(button){button.onclick=function(){if(state.reviewers.length===1)return alert('리뷰어는 한 명 이상 필요합니다.');state.reviewers=state.reviewers.filter(function(x){return x.id!==Number(button.dataset.remove)});save();renderReviews()}});
 }
 
@@ -73,15 +72,59 @@ ids.forEach(function(key){
   input.value=state[key];
   input.oninput=function(){state[key]=input.value;save();render()};
 });
-document.getElementById('heroUpload').onchange=function(){imageFile(this,function(value){state.heroImage=value;save();render()})};
-document.getElementById('posterUpload').onchange=function(){imageFile(this,function(value){state.posterImage=value;save();render()})};
-document.getElementById('backgroundUpload').onchange=function(){imageFile(this,function(value){state.backgroundImage=value;save();render()})};
-function bindMainCrop(prefix,key){['zoom','x','y'].forEach(function(part){var input=document.getElementById(prefix+part.charAt(0).toUpperCase()+part.slice(1)+'Input');input.value=state[key][part];input.oninput=function(){state[key][part]=Number(input.value);save();render()}})}
-bindMainCrop('background','backgroundCrop');bindMainCrop('hero','heroCrop');bindMainCrop('poster','posterCrop');
+document.getElementById('heroUpload').onchange=function(){imageFile(this,function(value){state.heroImage=value;save();render();openImageEditor('hero')})};
+document.getElementById('posterUpload').onchange=function(){imageFile(this,function(value){state.posterImage=value;save();render();openImageEditor('poster')})};
+document.getElementById('backgroundUpload').onchange=function(){imageFile(this,function(value){state.backgroundImage=value;save();render();openImageEditor('background')})};
 var backgroundOpacityInput=document.getElementById('backgroundOpacityInput');
 backgroundOpacityInput.value=state.backgroundOpacity;
 backgroundOpacityInput.oninput=function(){state.backgroundOpacity=this.value;save();render()};
 document.getElementById('removeBackground').onclick=function(){state.backgroundImage='';document.getElementById('backgroundUpload').value='';save();render()};
+
+var imageEditorModal=document.getElementById('imageEditorModal');
+var imageEditorViewport=document.getElementById('imageEditorViewport');
+var imageEditorPreview=document.getElementById('imageEditorPreview');
+var imageZoomInput=document.getElementById('imageZoomInput');
+var imageXInput=document.getElementById('imageXInput');
+var imageYInput=document.getElementById('imageYInput');
+var editingImage=null,pendingCrop=null;
+function imageEditorData(type,id){
+  if(type==='review'){
+    var reviewer=state.reviewers.find(function(r){return r.id===Number(id)});
+    return reviewer?{src:reviewer.avatar,crop:cropOf(reviewer),owner:reviewer,title:'리뷰 이미지 편집'}:null;
+  }
+  var titles={background:'시트 배경 편집',hero:'상단 메인 이미지 편집',poster:'영화 포스터 편집'};
+  return {src:state[type+'Image'],crop:state[type+'Crop'],owner:state,cropKey:type+'Crop',title:titles[type]};
+}
+function updateEditorPreview(){
+  if(!pendingCrop)return;
+  applyImageCrop(imageEditorPreview,pendingCrop);
+  document.getElementById('imageZoomValue').textContent=pendingCrop.zoom+'%';
+}
+function openImageEditor(type,id){
+  var data=imageEditorData(type,id);
+  if(!data||!data.src)return alert('먼저 이미지를 선택해주세요.');
+  editingImage={type:type,id:id};pendingCrop=Object.assign({},data.crop);
+  document.getElementById('imageEditorTitle').textContent=data.title;
+  imageEditorViewport.className='image-editor-viewport is-'+type;
+  imageEditorPreview.src=data.src;
+  imageZoomInput.value=pendingCrop.zoom;imageXInput.value=pendingCrop.x;imageYInput.value=pendingCrop.y;
+  updateEditorPreview();imageEditorModal.hidden=false;document.body.classList.add('modal-open');imageZoomInput.focus();
+}
+function closeImageEditor(){imageEditorModal.hidden=true;document.body.classList.remove('modal-open');editingImage=null;pendingCrop=null}
+[imageZoomInput,imageXInput,imageYInput].forEach(function(input){input.oninput=function(){if(!pendingCrop)return;pendingCrop.zoom=Number(imageZoomInput.value);pendingCrop.x=Number(imageXInput.value);pendingCrop.y=Number(imageYInput.value);updateEditorPreview()}});
+document.querySelectorAll('[data-image-editor]').forEach(function(button){button.onclick=function(){openImageEditor(button.dataset.imageEditor)}});
+document.getElementById('imageEditorApply').onclick=function(){
+  if(!editingImage||!pendingCrop)return closeImageEditor();
+  if(editingImage.type==='review'){
+    var reviewer=state.reviewers.find(function(r){return r.id===Number(editingImage.id)});if(reviewer)reviewer.crop=Object.assign({},pendingCrop);
+  }else state[editingImage.type+'Crop']=Object.assign({},pendingCrop);
+  save();closeImageEditor();render();
+};
+document.getElementById('imageEditorCancel').onclick=closeImageEditor;
+document.getElementById('imageEditorClose').onclick=closeImageEditor;
+imageEditorModal.onclick=function(event){if(event.target===imageEditorModal)closeImageEditor()};
+document.addEventListener('keydown',function(event){if(event.key==='Escape'&&!imageEditorModal.hidden)closeImageEditor()});
+
 document.getElementById('addReviewer').onclick=function(){
   var number=state.reviewers.length+1;
   state.reviewers.push({id:Date.now(),name:'리뷰어 '+number,role:number+'번째 관객',rating:'★ 4.0',body:'영화를 보고 떠오른 감상과 오래 남은 장면을 자유롭게 적어주세요.',avatar:'',crop:{zoom:100,x:50,y:50}});
@@ -92,7 +135,6 @@ document.getElementById('resetAll').onclick=function(){
   state=JSON.parse(JSON.stringify(defaults));save();
   ids.forEach(function(key){document.getElementById(inputIds[key]).value=state[key]});
   backgroundOpacityInput.value=state.backgroundOpacity;
-  ['background','hero','poster'].forEach(function(prefix){['zoom','x','y'].forEach(function(part){document.getElementById(prefix+part.charAt(0).toUpperCase()+part.slice(1)+'Input').value=state[prefix+'Crop'][part]})});
   document.getElementById('backgroundUpload').value='';
   render();
 };
