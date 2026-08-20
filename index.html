@@ -25,13 +25,13 @@
           <label>포인트 컬러<input type="color" id="accentInput" value="#edff57"></label>
           <label>상단 RE:FRAME 문구<input id="brandInput" maxlength="24" placeholder="RE:FRAME"></label>
           <label class="upload">시트 배경 이미지<input type="file" id="backgroundUpload" accept="image/*"><span>이미지 선택</span></label>
-          <div class="crop-tools"><label>배경 확대<input type="range" id="backgroundZoomInput" min="100" max="220" value="100"></label><label>좌우<input type="range" id="backgroundXInput" min="0" max="100" value="50"></label><label>상하<input type="range" id="backgroundYInput" min="0" max="100" value="50"></label></div>
+          <button class="image-edit-trigger" type="button" data-image-editor="background">배경 이미지 편집창 열기</button>
           <label>배경 이미지 농도<input type="range" id="backgroundOpacityInput" min="0.05" max="0.65" step="0.05" value="0.22"></label>
           <button class="remove-background" id="removeBackground" type="button">배경 이미지 삭제</button>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
-          <div class="crop-tools"><label>메인 확대<input type="range" id="heroZoomInput" min="100" max="220" value="100"></label><label>좌우<input type="range" id="heroXInput" min="0" max="100" value="50"></label><label>상하<input type="range" id="heroYInput" min="0" max="100" value="50"></label></div>
+          <button class="image-edit-trigger" type="button" data-image-editor="hero">메인 이미지 편집창 열기</button>
           <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
-          <div class="crop-tools"><label>포스터 확대<input type="range" id="posterZoomInput" min="100" max="220" value="100"></label><label>좌우<input type="range" id="posterXInput" min="0" max="100" value="50"></label><label>상하<input type="range" id="posterYInput" min="0" max="100" value="50"></label></div>
+          <button class="image-edit-trigger" type="button" data-image-editor="poster">포스터 편집창 열기</button>
           <label>상단 작은 문구<input id="topLineInput"></label>
         </div>
       </details>
@@ -100,6 +100,19 @@
       </div>
     </section>
   </main>
+
+  <div class="image-editor-modal" id="imageEditorModal" hidden>
+    <section class="image-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="imageEditorTitle">
+      <header><div><span>IMAGE EDITOR</span><h2 id="imageEditorTitle">이미지 편집</h2></div><button type="button" id="imageEditorClose" aria-label="닫기">×</button></header>
+      <div class="image-editor-workspace"><div class="image-editor-viewport" id="imageEditorViewport"><img id="imageEditorPreview" alt="편집 이미지 미리보기"></div></div>
+      <div class="image-editor-controls">
+        <label>확대 <output id="imageZoomValue">100%</output><input type="range" id="imageZoomInput" min="100" max="220" value="100"></label>
+        <label>좌우 위치<input type="range" id="imageXInput" min="0" max="100" value="50"></label>
+        <label>상하 위치<input type="range" id="imageYInput" min="0" max="100" value="50"></label>
+      </div>
+      <footer><button class="secondary" type="button" id="imageEditorCancel">취소</button><button class="primary" type="button" id="imageEditorApply">적용</button></footer>
+    </section>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="app.js"></script>
 </body>
