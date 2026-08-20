@@ -72,3 +72,10 @@
 .sheet,.sheet *{color:var(--accent)!important}.sheet .reviews:before{color:var(--accent)!important}
 .sheet-hero:after{background:linear-gradient(0deg,rgba(var(--background-rgb),1) 0%,rgba(var(--background-rgb),.97) 14%,rgba(var(--background-rgb),.72) 36%,rgba(var(--background-rgb),.22) 60%,transparent 78%),linear-gradient(90deg,#000c 0,transparent 68%)}
 .question-block{grid-template-columns:180px minmax(0,1fr)}.question-block>strong{min-width:170px;padding:0 14px 0 4px;line-height:1.05;letter-spacing:-.08em;white-space:nowrap;overflow:visible}
+
+/* Horizontally pannable mobile preview */
+@media(max-width:760px){
+  .stage{overflow-x:auto;overflow-y:visible;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+  .sheet-frame{width:644px;max-width:none;margin-left:0;margin-right:0;overflow:hidden}
+  .sheet{transform:scale(.7)}
+}
