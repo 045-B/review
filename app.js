@@ -26,6 +26,7 @@ var sheet=document.getElementById('captureSheet'),frame=document.querySelector('
 var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function previewText(value,example){return String(value==null?'':value).trim()?value:(example||'')}
 function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state))}catch(error){}}
 function imageFile(input,done){var file=input.files&&input.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){done(String(reader.result))};reader.readAsDataURL(file)}
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
@@ -35,8 +36,9 @@ function applyImageCrop(image,crop){if(!image)return;image.style.objectPosition=
 
 function renderReviewPreview(){
   document.getElementById('reviewsView').innerHTML=state.reviewers.map(function(r,index){
+    var sample=examples.reviewers[index]||{name:'리뷰어 이름',rating:'★ 5',role:'역할 / 한 줄 정보',body:'영화를 보고 떠오른 감상을 입력하세요.'};
     var avatar=r.avatar?'<img src="'+r.avatar+'" alt="">':'<span>0'+(index+1)+'</span>';
-    return '<article class="review-block"><div class="avatar-view" data-review-image="'+r.id+'">'+avatar+'</div><div class="review-bubble"><header class="review-head"><h4>'+esc(r.name)+'</h4><span>'+esc(r.role)+'</span><strong>'+esc(r.rating)+'</strong></header><p>'+esc(r.body)+'</p></div></article>';
+    return '<article class="review-block"><div class="avatar-view" data-review-image="'+r.id+'">'+avatar+'</div><div class="review-bubble"><header class="review-head"><h4>'+esc(previewText(r.name,sample.name))+'</h4><span>'+esc(previewText(r.role,sample.role))+'</span><strong>'+esc(previewText(r.rating,sample.rating))+'</strong></header><p>'+esc(previewText(r.body,sample.body))+'</p></div></article>';
   }).join('');
   state.reviewers.forEach(function(r){applyImageCrop(document.querySelector('[data-review-image="'+r.id+'"] img'),cropOf(r))});
   setupDirectEditors();
@@ -61,7 +63,7 @@ function render(){
   sheet.style.setProperty('--background-rgb',hexToRgb(state.backgroundColor));
   sheet.style.setProperty('--sheet-font',fontFamilies[state.font]||fontFamilies.pretendard);
   sheet.style.backgroundColor=state.backgroundColor;
-  document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=state.brand});
+  document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=previewText(state.brand,examples.brand)});
   var heroLayer=document.getElementById('heroImageLayer');
   heroLayer.style.backgroundImage=state.heroImage?'url("'+state.heroImage+'")':'';
   heroLayer.style.backgroundPosition=state.heroCrop.x+'% '+state.heroCrop.y+'%';
@@ -70,7 +72,7 @@ function render(){
   var poster=document.getElementById('posterView');
   poster.innerHTML=state.posterImage?'<img src="'+state.posterImage+'" alt="영화 포스터">':'<span>POSTER<br>IMAGE</span>';
   applyImageCrop(poster.querySelector('img'),state.posterCrop);
-  Object.keys(viewIds).forEach(function(key){document.getElementById(viewIds[key]).textContent=state[key]});
+  Object.keys(viewIds).forEach(function(key){document.getElementById(viewIds[key]).textContent=previewText(state[key],examples[key])});
   renderReviews();
 }
 
