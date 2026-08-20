@@ -17,7 +17,7 @@ var ids=['accent','backgroundColor','font','brand','title','engTitle','year','ge
 var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',font:'fontInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',question:'questionInput',answer:'answerInput'};
 var viewIds={title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
-var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
+var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state))}catch(error){}}
