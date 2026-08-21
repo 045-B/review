@@ -98,3 +98,8 @@
 
 /* Editable review section title. */
 .reviews:before{content:attr(data-title);white-space:pre-line;line-height:1.15;overflow-wrap:anywhere}
+
+/* Multiline editing for every customizable text field. */
+.fields textarea.text-line,.reviewer-editor textarea.text-line{min-height:38px;height:38px;resize:vertical;line-height:1.35;overflow-y:hidden}
+[data-brand],#featuredLabelView,#featuredNumberView,#titleView,#engTitleView,.movie-meta span,#synopsisView,#tagsView,#questionLabelView,#questionNumberView,#questionView,#answerView,.review-head h4,.review-head span,.review-head strong,.review-bubble p{white-space:pre-line;overflow-wrap:anywhere}
+.movie-meta span{height:auto;min-height:13px}
