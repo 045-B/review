@@ -177,7 +177,9 @@ document.getElementById('savePng').onclick=async function(){
     exportingBlankValues=true;render();
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
-    var canvas=await window.html2canvas(sheet,{scale:2,backgroundColor:state.backgroundColor,useCORS:true,logging:false});
+    var sheetArea=Math.max(1,sheet.scrollWidth*sheet.scrollHeight);
+    var exportScale=Math.max(2,Math.min(4,Math.sqrt(40000000/sheetArea)));
+    var canvas=await window.html2canvas(sheet,{scale:exportScale,backgroundColor:state.backgroundColor,useCORS:true,logging:false,imageTimeout:30000});
     var link=document.createElement('a');link.download='reframe-'+(state.title||'movie-review')+'.png';link.href=canvas.toDataURL('image/png');link.click();
   }catch(error){alert('PNG를 만들지 못했습니다. 이미지 용량을 줄여 다시 시도해주세요.')}
   finally{exportingBlankValues=false;render();document.body.classList.remove('saving');button.disabled=false;button.textContent='PNG 저장';fitFrame()}
