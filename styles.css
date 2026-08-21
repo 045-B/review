@@ -85,3 +85,6 @@
 
 /* Slightly larger supporting copy */
 .sheet-nav span{font-size:11px}.sheet-hero>p{font-size:11px}.section-label{font-size:9px}.english-title{font-size:11px}.movie-meta span{font-size:10px}.tags{font-size:9px}.question-block>div>p:last-child{font-size:11px}.review-head span{font-size:9px}.review-bubble p{font-size:10px}.sheet footer{font-size:8px}
+
+/* Keep the subtitle and film metadata visually grouped. */
+.english-title{margin:7px 0 0}.movie-meta{margin:8px 0 14px}
