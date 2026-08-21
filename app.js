@@ -1,5 +1,5 @@
 var examples={
-  brand:'999+',featuredLabel:'FEATURED FILM',title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',tags:'군부물 · 아포칼립스 · 재난',questionLabel:'QUESTION OF THE FILM',questionNumber:'Q1',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
+  brand:'999+',featuredLabel:'FEATURED FILM',featuredNumber:'01',title:'아무도 아닌',engTitle:'Became no one',year:'2080',genre:'재난 · 생존 · 성장',director:'9 · 99',synopsis:'아무도 아닌 사람들의 이야기.',tags:'군부물 · 아포칼립스 · 재난',questionLabel:'QUESTION OF THE FILM',questionNumber:'Q1',question:'정의 내릴 수 없는',answer:'사람. 내 사람.\n그 두 글자 안에 소유가 있었고 신뢰가 있었고 분류 불가능한 것의 분류 포기가 있었다. 연인이 되기도 하고 동료가 되기도 하고 어떤 날에는 원수가 되기도 할 테지만 그 모든 것의 밑바닥에 깔린 것은 결국 이 사람은 나의 사람이라는 한 문장이므로.',
   reviewers:[
     {id:1,name:'9',role:'불러줘, 이름.',rating:'★ 5',body:'I figured if I was gonna become no one anyway, might as well carry the one name that meant something.\n어차피 아무도 아닌 사람이 될 거면, 의미 있는 이름 하나쯤은 들고 가도 되지 않을까 싶었어.',avatar:'',crop:{zoom:100,x:50,y:50}},
     {id:2,name:'99',role:'붙여줘, 이름.',rating:'★ 5',body:'Found each other pretty well. Two nobodies.\n잘 만났네. 아무도 아닌 사람끼리.',avatar:'',crop:{zoom:100,x:50,y:50}}
@@ -7,7 +7,7 @@ var examples={
 };
 var defaults={
   accent:'#a8a8a8',brand:'',backgroundColor:'#050505',reviewBlockColor:'#181818',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
-  featuredLabel:'',title:'',engTitle:'',year:'',genre:'',director:'',synopsis:'',tags:'',questionLabel:'',questionNumber:'',question:'',answer:'',
+  featuredLabel:'',featuredNumber:'',title:'',engTitle:'',year:'',genre:'',director:'',synopsis:'',tags:'',questionLabel:'',questionNumber:'',question:'',answer:'',
   reviewers:[
     {id:1,name:'',role:'',rating:'',body:'',avatar:'',crop:{zoom:100,x:50,y:50}},
     {id:2,name:'',role:'',rating:'',body:'',avatar:'',crop:{zoom:100,x:50,y:50}}
@@ -19,9 +19,9 @@ if(state.accent==='#edff57')state.accent='#a8a8a8';
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
 
-var ids=['accent','backgroundColor','reviewBlockColor','font','brand','featuredLabel','title','engTitle','year','genre','director','synopsis','tags','questionLabel','questionNumber','question','answer'];
-var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',reviewBlockColor:'reviewBlockColorInput',font:'fontInput',brand:'brandInput',featuredLabel:'featuredLabelInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',questionLabel:'questionLabelInput',questionNumber:'questionNumberInput',question:'questionInput',answer:'answerInput'};
-var viewIds={featuredLabel:'featuredLabelView',title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',questionLabel:'questionLabelView',questionNumber:'questionNumberView',question:'questionView',answer:'answerView'};
+var ids=['accent','backgroundColor','reviewBlockColor','font','brand','featuredLabel','featuredNumber','title','engTitle','year','genre','director','synopsis','tags','questionLabel','questionNumber','question','answer'];
+var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',reviewBlockColor:'reviewBlockColorInput',font:'fontInput',brand:'brandInput',featuredLabel:'featuredLabelInput',featuredNumber:'featuredNumberInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',questionLabel:'questionLabelInput',questionNumber:'questionNumberInput',question:'questionInput',answer:'answerInput'};
+var viewIds={featuredLabel:'featuredLabelView',featuredNumber:'featuredNumberView',title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',questionLabel:'questionLabelView',questionNumber:'questionNumberView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
 var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
