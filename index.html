@@ -44,7 +44,7 @@
       <details open>
         <summary><b>02</b> 영화 정보</summary>
         <div class="fields">
-          <label>영화 소개 상단 문구<input id="featuredLabelInput" maxlength="40" placeholder="FEATURED FILM"></label>
+          <div class="two"><label>영화 소개 상단 문구<input id="featuredLabelInput" maxlength="40" placeholder="FEATURED FILM"></label><label>영화 소개 번호<input id="featuredNumberInput" maxlength="8" placeholder="01"></label></div>
           <label>영화 제목<input id="titleInput"></label>
           <label>소제목<input id="engTitleInput"></label>
           <div class="two"><label>개봉 연도<input id="yearInput"></label><label>장르<input id="genreInput"></label></div>
@@ -86,7 +86,7 @@
             <section class="movie-overview">
               <div class="poster-view" id="posterView"><span>POSTER<br>IMAGE</span></div>
               <div class="movie-copy">
-                <p class="section-label"><span id="featuredLabelView">FEATURED FILM</span> <i>01</i></p>
+                <p class="section-label"><span id="featuredLabelView">FEATURED FILM</span> <i id="featuredNumberView">01</i></p>
                 <h2 id="titleView"></h2>
                 <p class="english-title" id="engTitleView"></p>
                 <p class="movie-meta"><span id="yearView"></span><span id="genreView"></span><span id="directorView"></span></p>
@@ -108,6 +108,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="app.js?v=featured-label-editor"></script>
+  <script src="app.js?v=featured-number-editor"></script>
 </body>
 </html>
