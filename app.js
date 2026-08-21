@@ -14,6 +14,7 @@ var defaults={
   ]
 };
 var state;
+var exportingBlankValues=false;
 try{state=Object.assign(JSON.parse(JSON.stringify(defaults)),JSON.parse(localStorage.getItem('reframe-sheet-v2')||'{}'))}catch(error){state=JSON.parse(JSON.stringify(defaults))}
 if(state.accent==='#edff57')state.accent='#a8a8a8';
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
@@ -26,7 +27,7 @@ var sheet=document.getElementById('captureSheet'),frame=document.querySelector('
 var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function previewText(value){return String(value==null?'':value)}
+function previewText(value,example){var text=String(value==null?'':value);return text.trim()?text:(exportingBlankValues?'':String(example||''))}
 function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state))}catch(error){}}
 function imageFile(input,done){var file=input.files&&input.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){done(String(reader.result))};reader.readAsDataURL(file)}
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
@@ -173,12 +174,13 @@ document.getElementById('savePng').onclick=async function(){
   if(!window.html2canvas)return alert('저장 기능을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
   var button=this;button.disabled=true;button.textContent='저장 중…';document.body.classList.add('saving');
   try{
+    exportingBlankValues=true;render();
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
     await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
     var canvas=await window.html2canvas(sheet,{scale:2,backgroundColor:state.backgroundColor,useCORS:true,logging:false});
     var link=document.createElement('a');link.download='reframe-'+(state.title||'movie-review')+'.png';link.href=canvas.toDataURL('image/png');link.click();
   }catch(error){alert('PNG를 만들지 못했습니다. 이미지 용량을 줄여 다시 시도해주세요.')}
-  finally{document.body.classList.remove('saving');button.disabled=false;button.textContent='PNG 저장';fitFrame()}
+  finally{exportingBlankValues=false;render();document.body.classList.remove('saving');button.disabled=false;button.textContent='PNG 저장';fitFrame()}
 };
 
 var mobileEditorToggle=document.getElementById('mobileEditorToggle');
