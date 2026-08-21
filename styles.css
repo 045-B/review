@@ -79,3 +79,6 @@
   .sheet-frame{width:644px;max-width:none;margin-left:0;margin-right:0;overflow:hidden}
   .sheet{transform:scale(.7)}
 }
+
+/* Larger movie synopsis */
+.synopsis{font-size:12px;line-height:1.8}
