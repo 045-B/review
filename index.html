@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TetraTheta/RIDIBatang-subset/dist/style/RIDIBatang-subset-web.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
-  <link rel="stylesheet" href="styles.css?v=multiline-reviews-title">
+  <link rel="stylesheet" href="styles.css?v=all-text-shift-enter">
   <style>@media(max-width:760px){.stage{overflow-x:auto;overflow-y:visible;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.sheet-frame{width:644px;max-width:none;margin-left:0;margin-right:0;overflow:hidden}.sheet{transform:scale(.7)}}</style>
 </head>
 <body>
@@ -34,7 +34,7 @@
           <label>포인트 컬러<input type="color" id="accentInput" value="#a8a8a8"></label>
           <label>시트 배경색<input type="color" id="backgroundColorInput" value="#050505"></label>
           <label>리뷰 블럭 색상<input type="color" id="reviewBlockColorInput" value="#181818"></label>
-          <label>상단 문구<input id="brandInput" maxlength="24" placeholder="상단 문구"></label>
+          <label>상단 문구<textarea class="text-line" id="brandInput" maxlength="80" rows="1" placeholder="상단 문구"></textarea></label>
           <label>폰트<select id="fontInput"><option value="pretendard">Pretendard</option><option value="noto">Noto Sans KR</option><option value="ridi">리디바탕</option><option value="galmuri">Galmuri</option></select></label>
           <label class="upload">상단 메인 이미지<input type="file" id="heroUpload" accept="image/*"><span>이미지 선택</span></label>
           <label class="upload">영화 포스터<input type="file" id="posterUpload" accept="image/*"><span>이미지 선택</span></label>
@@ -44,22 +44,22 @@
       <details open>
         <summary><b>02</b> 영화 정보</summary>
         <div class="fields">
-          <div class="two"><label>영화 소개 상단 문구<input id="featuredLabelInput" maxlength="40" placeholder="FEATURED FILM"></label><label>영화 소개 번호<input id="featuredNumberInput" maxlength="8" placeholder="01"></label></div>
-          <label>영화 제목<input id="titleInput"></label>
-          <label>소제목<input id="engTitleInput"></label>
-          <div class="two"><label>개봉 연도<input id="yearInput"></label><label>장르<input id="genreInput"></label></div>
-          <label>감독 / 제작<input id="directorInput"></label>
+          <div class="two"><label>영화 소개 상단 문구<textarea class="text-line" id="featuredLabelInput" maxlength="80" rows="1" placeholder="FEATURED FILM"></textarea></label><label>영화 소개 번호<textarea class="text-line" id="featuredNumberInput" maxlength="20" rows="1" placeholder="01"></textarea></label></div>
+          <label>영화 제목<textarea class="text-line" id="titleInput" rows="1"></textarea></label>
+          <label>소제목<textarea class="text-line" id="engTitleInput" rows="1"></textarea></label>
+          <div class="two"><label>개봉 연도<textarea class="text-line" id="yearInput" rows="1"></textarea></label><label>장르<textarea class="text-line" id="genreInput" rows="1"></textarea></label></div>
+          <label>감독 / 제작<textarea class="text-line" id="directorInput" rows="1"></textarea></label>
           <label>영화 소개<textarea id="synopsisInput"></textarea></label>
-          <label>태그<input id="tagsInput" placeholder="#드라마 #성장 #여름"></label>
+          <label>태그<textarea class="text-line" id="tagsInput" rows="1" placeholder="#드라마 #성장 #여름"></textarea></label>
         </div>
       </details>
 
       <details open>
         <summary><b>03</b> 핵심 질문</summary>
         <div class="fields">
-          <label>질문 상단 문구<input id="questionLabelInput" maxlength="40" placeholder="QUESTION OF THE FILM"></label>
-          <label>질문 번호<input id="questionNumberInput" maxlength="8" placeholder="Q1"></label>
-          <label>질문<input id="questionInput"></label>
+          <label>질문 상단 문구<textarea class="text-line" id="questionLabelInput" maxlength="80" rows="1" placeholder="QUESTION OF THE FILM"></textarea></label>
+          <label>질문 번호<textarea class="text-line" id="questionNumberInput" maxlength="20" rows="1" placeholder="Q1"></textarea></label>
+          <label>질문<textarea class="text-line" id="questionInput" rows="1"></textarea></label>
           <label>질문에 대한 소개<textarea id="answerInput"></textarea></label>
         </div>
       </details>
@@ -109,6 +109,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="app.js?v=shift-enter-line-break"></script>
+  <script src="app.js?v=all-text-shift-enter"></script>
 </body>
 </html>
