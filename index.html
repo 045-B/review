@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TetraTheta/RIDIBatang-subset/dist/style/RIDIBatang-subset-web.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
-  <link rel="stylesheet" href="styles.css?v=tighter-question-gap">
+  <link rel="stylesheet" href="styles.css?v=editable-reviews-title">
   <style>@media(max-width:760px){.stage{overflow-x:auto;overflow-y:visible;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.sheet-frame{width:644px;max-width:none;margin-left:0;margin-right:0;overflow:hidden}.sheet{transform:scale(.7)}}</style>
 </head>
 <body>
@@ -66,6 +66,7 @@
 
       <details open>
         <summary><b>04</b> 리뷰어</summary>
+        <div class="fields"><label>리뷰 제목<input id="reviewsLabelInput" maxlength="40" placeholder="REVIEWS"></label></div>
         <div id="reviewerEditors"></div>
         <button class="add-reviewer" id="addReviewer">＋ 리뷰어 추가</button>
       </details>
@@ -108,6 +109,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="app.js?v=featured-number-editor"></script>
+  <script src="app.js?v=editable-reviews-title"></script>
 </body>
 </html>
