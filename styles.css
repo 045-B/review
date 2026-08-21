@@ -25,7 +25,7 @@
 .sheet:after{display:none}.review-block{grid-template-columns:200px 1fr;min-height:155px}.avatar-view{width:200px;height:155px}.review-head strong{font-size:16px}.image-editor-viewport.is-review{aspect-ratio:20/15}.movie-overview{grid-template-columns:220px 1fr;gap:36px;margin-top:-135px}.poster-view{width:220px;height:320px}.movie-copy{padding-top:130px}
 
 /* Direct image manipulation */
-.direct-edit-image{pointer-events:auto!important;cursor:grab;touch-action:none;user-select:none;transition:none!important}.direct-edit-image:active{cursor:grabbing}.is-direct-active{outline:4px solid var(--accent);outline-offset:-4px}.sheet-hero:after{pointer-events:none}.saving .is-direct-active{outline:0}.saving .direct-edit-image{cursor:default}.stage-note p{max-width:520px;text-align:right;line-height:1.4}
+.direct-edit-image{pointer-events:auto!important;cursor:grab;touch-action:none;user-select:none;transition:none!important}.direct-edit-image:active{cursor:grabbing}.is-direct-active{outline:4px solid var(--accent);outline-offset:-4px}.hero-image-layer.is-direct-active{outline:0}.sheet-hero:after{pointer-events:none}.saving .is-direct-active{outline:0}.saving .direct-edit-image{cursor:default}.stage-note p{max-width:520px;text-align:right;line-height:1.4}
 
 /* Compact, vertically balanced movie details */
 .movie-meta{width:max-content;max-width:100%;display:inline-flex;align-items:center;gap:0;margin:18px 0 14px}.movie-meta span{min-width:0;height:13px;display:inline-flex;align-items:center;padding:0 10px;border:0;border-right:1px solid #555;border-radius:0;line-height:13px;text-align:left;white-space:nowrap;overflow:visible;text-overflow:clip}.movie-meta span:first-child{padding-left:0}.movie-meta span:last-child{padding-right:0;border-right:0}
