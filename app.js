@@ -84,6 +84,13 @@ ids.forEach(function(key){
   input.value=state[key];
   input.oninput=function(){state[key]=input.value;save();render()};
 });
+document.getElementById('reviewsLabelInput').addEventListener('keydown',function(event){
+  if(event.key!=='Enter'||!event.shiftKey)return;
+  event.preventDefault();
+  var start=this.selectionStart,end=this.selectionEnd;
+  this.setRangeText('\n',start,end,'end');
+  this.dispatchEvent(new Event('input',{bubbles:true}));
+});
 document.getElementById('heroUpload').onchange=function(){imageFile(this,function(value){state.heroImage=value;save();render();selectDirectImage('hero')})};
 document.getElementById('posterUpload').onchange=function(){imageFile(this,function(value){state.posterImage=value;save();render();selectDirectImage('poster')})};
 
