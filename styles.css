@@ -88,3 +88,6 @@
 
 /* Keep the subtitle and film metadata visually grouped. */
 .english-title{margin:7px 0 0}.movie-meta{margin:8px 0 14px}
+
+/* Customizable review card background. */
+.review-block,.review-bubble{background:var(--review-block-color,#181818)}
