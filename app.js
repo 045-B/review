@@ -32,15 +32,15 @@ function imageFile(input,done){var file=input.files&&input.files[0];if(!file)ret
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
 function cropOf(owner){return Object.assign({zoom:100,x:50,y:50},owner.crop||{})}
 function cropTransform(crop){var scale=Math.max(1,Number(crop.zoom||100)/100),x=Number(crop.x),y=Number(crop.y);if(!Number.isFinite(x))x=50;if(!Number.isFinite(y))y=50;var moveX=(50-x)*(scale-1),moveY=(50-y)*(scale-1);return 'translate3d('+moveX+'%,'+moveY+'%,0) scale('+scale+')'}
-function applyImageCrop(image,crop){if(!image)return;image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform=cropTransform(crop);image.style.transformOrigin='50% 50%'}
+function applyImageCrop(image,crop){if(!image)return;if(image.classList.contains('crop-image-layer'))image.style.backgroundPosition=crop.x+'% '+crop.y+'%';else image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform=cropTransform(crop);image.style.transformOrigin='50% 50%'}
 
 function renderReviewPreview(){
   document.getElementById('reviewsView').innerHTML=state.reviewers.map(function(r,index){
     var sample=examples.reviewers[index]||{name:'리뷰어 이름',rating:'★ 5',role:'역할 / 한 줄 정보',body:'영화를 보고 떠오른 감상을 입력하세요.'};
-    var avatar=r.avatar?'<img src="'+r.avatar+'" alt="">':'<span>0'+(index+1)+'</span>';
+    var avatar=r.avatar?'<div class="crop-image-layer" aria-hidden="true"></div>':'<span>0'+(index+1)+'</span>';
     return '<article class="review-block"><div class="avatar-view" data-review-image="'+r.id+'">'+avatar+'</div><div class="review-bubble"><header class="review-head"><h4>'+esc(previewText(r.name,sample.name))+'</h4><span>'+esc(previewText(r.role,sample.role))+'</span><strong>'+esc(previewText(r.rating,sample.rating))+'</strong></header><p>'+esc(previewText(r.body,sample.body))+'</p></div></article>';
   }).join('');
-  state.reviewers.forEach(function(r){applyImageCrop(document.querySelector('[data-review-image="'+r.id+'"] img'),cropOf(r))});
+  state.reviewers.forEach(function(r){var layer=document.querySelector('[data-review-image="'+r.id+'"] .crop-image-layer');if(layer){layer.style.backgroundImage='url("'+r.avatar+'")';applyImageCrop(layer,cropOf(r))}});
   setupDirectEditors();
   fitFrame();
 }
@@ -71,8 +71,8 @@ function render(){
   heroLayer.style.transform=cropTransform(state.heroCrop);
   heroLayer.style.transformOrigin='50% 50%';
   var poster=document.getElementById('posterView');
-  poster.innerHTML=state.posterImage?'<img src="'+state.posterImage+'" alt="영화 포스터">':'<span>POSTER<br>IMAGE</span>';
-  applyImageCrop(poster.querySelector('img'),state.posterCrop);
+  poster.innerHTML=state.posterImage?'<div class="crop-image-layer" role="img" aria-label="영화 포스터"></div>':'<span>POSTER<br>IMAGE</span>';
+  var posterLayer=poster.querySelector('.crop-image-layer');if(posterLayer){posterLayer.style.backgroundImage='url("'+state.posterImage+'")';applyImageCrop(posterLayer,state.posterCrop)}
   Object.keys(viewIds).forEach(function(key){document.getElementById(viewIds[key]).textContent=previewText(state[key],examples[key])});
   document.getElementById('reviewsView').dataset.title=previewText(state.reviewsLabel,examples.reviewsLabel);
   renderReviews();
@@ -100,10 +100,10 @@ var activeDirectImage=null;
 function clamp(value,min,max){return Math.max(min,Math.min(max,value))}
 function directImageData(type,id){
   if(type==='hero')return state.heroImage?{type:type,id:null,element:document.getElementById('heroImageLayer'),box:document.getElementById('sheetHero'),crop:state.heroCrop,label:'메인 이미지'}:null;
-  if(type==='poster')return state.posterImage?{type:type,id:null,element:document.querySelector('#posterView img'),box:document.getElementById('posterView'),crop:state.posterCrop,label:'포스터'}:null;
+  if(type==='poster')return state.posterImage?{type:type,id:null,element:document.querySelector('#posterView .crop-image-layer'),box:document.getElementById('posterView'),crop:state.posterCrop,label:'포스터'}:null;
   var reviewer=state.reviewers.find(function(r){return r.id===Number(id)});
   var holder=document.querySelector('[data-review-image="'+id+'"]');
-  return reviewer&&reviewer.avatar&&holder?{type:'review',id:Number(id),element:holder.querySelector('img'),box:holder,crop:(reviewer.crop||(reviewer.crop=cropOf(reviewer))),label:'리뷰 이미지'}:null;
+  return reviewer&&reviewer.avatar&&holder?{type:'review',id:Number(id),element:holder.querySelector('.crop-image-layer'),box:holder,crop:(reviewer.crop||(reviewer.crop=cropOf(reviewer))),label:'리뷰 이미지'}:null;
 }
 function paintDirectImage(data){
   if(!data||!data.element)return;
@@ -202,3 +202,4 @@ if(mobileEditorMedia.addEventListener)mobileEditorMedia.addEventListener('change
 else mobileEditorMedia.addListener(resetMobileEditor);
 window.addEventListener('resize',fitFrame);
 render();
+
