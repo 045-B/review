@@ -6,7 +6,7 @@ var examples={
   ]
 };
 var defaults={
-  accent:'#a8a8a8',brand:'',backgroundColor:'#050505',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
+  accent:'#a8a8a8',brand:'',backgroundColor:'#050505',reviewBlockColor:'#181818',font:'pretendard',heroImage:'',heroCrop:{zoom:100,x:50,y:50},posterImage:'',posterCrop:{zoom:100,x:50,y:50},
   title:'',engTitle:'',year:'',genre:'',director:'',synopsis:'',tags:'',questionLabel:'',questionNumber:'',question:'',answer:'',
   reviewers:[
     {id:1,name:'',role:'',rating:'',body:'',avatar:'',crop:{zoom:100,x:50,y:50}},
@@ -19,8 +19,8 @@ if(state.accent==='#edff57')state.accent='#a8a8a8';
 if(!Array.isArray(state.reviewers))state.reviewers=JSON.parse(JSON.stringify(defaults.reviewers));
 ['heroCrop','posterCrop'].forEach(function(key){state[key]=Object.assign({zoom:100,x:50,y:50},state[key]||{})});
 
-var ids=['accent','backgroundColor','font','brand','title','engTitle','year','genre','director','synopsis','tags','questionLabel','questionNumber','question','answer'];
-var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',font:'fontInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',questionLabel:'questionLabelInput',questionNumber:'questionNumberInput',question:'questionInput',answer:'answerInput'};
+var ids=['accent','backgroundColor','reviewBlockColor','font','brand','title','engTitle','year','genre','director','synopsis','tags','questionLabel','questionNumber','question','answer'];
+var inputIds={accent:'accentInput',backgroundColor:'backgroundColorInput',reviewBlockColor:'reviewBlockColorInput',font:'fontInput',brand:'brandInput',title:'titleInput',engTitle:'engTitleInput',year:'yearInput',genre:'genreInput',director:'directorInput',synopsis:'synopsisInput',tags:'tagsInput',questionLabel:'questionLabelInput',questionNumber:'questionNumberInput',question:'questionInput',answer:'answerInput'};
 var viewIds={title:'titleView',engTitle:'engTitleView',year:'yearView',genre:'genreView',director:'directorView',synopsis:'synopsisView',tags:'tagsView',questionLabel:'questionLabelView',questionNumber:'questionNumberView',question:'questionView',answer:'answerView'};
 var sheet=document.getElementById('captureSheet'),frame=document.querySelector('.sheet-frame');
 var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
@@ -61,6 +61,7 @@ function hexToRgb(value){var hex=String(value||'').replace('#','');if(hex.length
 function render(){
   sheet.style.setProperty('--accent',state.accent);
   sheet.style.setProperty('--background-rgb',hexToRgb(state.backgroundColor));
+  sheet.style.setProperty('--review-block-color',state.reviewBlockColor);
   sheet.style.setProperty('--sheet-font',fontFamilies[state.font]||fontFamilies.pretendard);
   sheet.style.backgroundColor=state.backgroundColor;
   document.querySelectorAll('[data-brand]').forEach(function(element){element.textContent=previewText(state.brand,examples.brand)});
