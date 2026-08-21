@@ -97,4 +97,4 @@
 .question-block>strong{width:max-content;min-width:0;max-width:300px;padding-right:2px}
 
 /* Editable review section title. */
-.reviews:before{content:attr(data-title)}
+.reviews:before{content:attr(data-title);white-space:pre-line;line-height:1.15;overflow-wrap:anywhere}
