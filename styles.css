@@ -93,5 +93,5 @@
 .review-block,.review-bubble{background:var(--review-block-color,#181818)}
 
 /* Let the question copy follow the actual number width. */
-.question-block{grid-template-columns:minmax(120px,max-content) minmax(0,1fr)}
-.question-block>strong{width:max-content;min-width:0;max-width:300px;padding-right:14px}
+.question-block{grid-template-columns:minmax(120px,max-content) minmax(0,1fr);gap:14px}
+.question-block>strong{width:max-content;min-width:0;max-width:300px;padding-right:2px}
