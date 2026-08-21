@@ -110,6 +110,7 @@
 
 /* Export-safe image surface: preserve source proportions and crop the overflow. */
 .crop-image-layer{position:absolute;inset:-2px;display:block;background-position:center;background-repeat:no-repeat;background-size:cover;transform-origin:50% 50%;backface-visibility:hidden;will-change:transform;image-rendering:-webkit-optimize-contrast}
+img.crop-image-layer{inset:auto;max-width:none;margin:0!important;object-fit:fill;image-rendering:auto}
 .saving .crop-image-layer{will-change:auto}
 
 /* Prevent a raster seam between the hero and body in PNG exports. */
