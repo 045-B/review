@@ -26,7 +26,7 @@ var sheet=document.getElementById('captureSheet'),frame=document.querySelector('
 var fontFamilies={pretendard:'Pretendard, sans-serif',noto:'"Noto Sans KR", sans-serif',ridi:'RIDIBatang-subset, RIDIBatang, serif',galmuri:'Galmuri11, sans-serif'};
 
 function esc(value){return String(value==null?'':value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function previewText(value,example){return String(value==null?'':value).trim()?value:(example||'')}
+function previewText(value){return String(value==null?'':value)}
 function save(){try{localStorage.setItem('reframe-sheet-v2',JSON.stringify(state))}catch(error){}}
 function imageFile(input,done){var file=input.files&&input.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(){done(String(reader.result))};reader.readAsDataURL(file)}
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
