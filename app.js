@@ -33,15 +33,16 @@ function imageFile(input,done){var file=input.files&&input.files[0];if(!file)ret
 function fitFrame(){requestAnimationFrame(function(){var rect=sheet.getBoundingClientRect();frame.style.height=Math.ceil(rect.height)+'px'})}
 function cropOf(owner){return Object.assign({zoom:100,x:50,y:50},owner.crop||{})}
 function cropTransform(crop){var scale=Math.max(1,Number(crop.zoom||100)/100),x=Number(crop.x),y=Number(crop.y);if(!Number.isFinite(x))x=50;if(!Number.isFinite(y))y=50;var moveX=(50-x)*(scale-1),moveY=(50-y)*(scale-1);return 'translate3d('+moveX+'%,'+moveY+'%,0) scale('+scale+')'}
-function applyImageCrop(image,crop){if(!image)return;if(image.classList.contains('crop-image-layer'))image.style.backgroundPosition=crop.x+'% '+crop.y+'%';else image.style.objectPosition=crop.x+'% '+crop.y+'%';image.style.transform=cropTransform(crop);image.style.transformOrigin='50% 50%'}
+function layoutCropImage(image,crop){if(!image||image.tagName!=='IMG'||!image.naturalWidth||!image.naturalHeight)return;var box=image.parentElement,bw=box.clientWidth+4,bh=box.clientHeight+4,zoom=Math.max(1,Number(crop.zoom||100)/100),x=Number(crop.x),y=Number(crop.y);if(!Number.isFinite(x))x=50;if(!Number.isFinite(y))y=50;x=clamp(x,0,100);y=clamp(y,0,100);var cover=Math.max(bw/image.naturalWidth,bh/image.naturalHeight),width=image.naturalWidth*cover*zoom,height=image.naturalHeight*cover*zoom;image.style.width=width+'px';image.style.height=height+'px';image.style.left=(-2-(width-bw)*x/100)+'px';image.style.top=(-2-(height-bh)*y/100)+'px';image.style.transform='none'}
+function applyImageCrop(image,crop){if(!image)return;image._cropData=crop;if(image.tagName==='IMG'){if(image.complete)layoutCropImage(image,crop);else image.onload=function(){layoutCropImage(image,crop)};return}image.style.backgroundPosition=crop.x+'% '+crop.y+'%';image.style.transform=cropTransform(crop);image.style.transformOrigin='50% 50%'}
 
 function renderReviewPreview(){
   document.getElementById('reviewsView').innerHTML=state.reviewers.map(function(r,index){
     var sample=examples.reviewers[index]||{name:'리뷰어 이름',rating:'★ 5',role:'역할 / 한 줄 정보',body:'영화를 보고 떠오른 감상을 입력하세요.'};
-    var avatar=r.avatar?'<div class="crop-image-layer" aria-hidden="true"></div>':'<span>0'+(index+1)+'</span>';
+    var avatar=r.avatar?'<img class="crop-image-layer" src="'+r.avatar+'" alt="">':'<span>0'+(index+1)+'</span>';
     return '<article class="review-block"><div class="avatar-view" data-review-image="'+r.id+'">'+avatar+'</div><div class="review-bubble"><header class="review-head"><h4>'+esc(previewText(r.name,sample.name))+'</h4><span>'+esc(previewText(r.role,sample.role))+'</span><strong>'+esc(previewText(r.rating,sample.rating))+'</strong></header><p>'+esc(previewText(r.body,sample.body))+'</p></div></article>';
   }).join('');
-  state.reviewers.forEach(function(r){var layer=document.querySelector('[data-review-image="'+r.id+'"] .crop-image-layer');if(layer){layer.style.backgroundImage='url("'+r.avatar+'")';applyImageCrop(layer,cropOf(r))}});
+  state.reviewers.forEach(function(r){applyImageCrop(document.querySelector('[data-review-image="'+r.id+'"] .crop-image-layer'),cropOf(r))});
   setupDirectEditors();
   fitFrame();
 }
@@ -72,8 +73,8 @@ function render(){
   heroLayer.style.transform=cropTransform(state.heroCrop);
   heroLayer.style.transformOrigin='50% 50%';
   var poster=document.getElementById('posterView');
-  poster.innerHTML=state.posterImage?'<div class="crop-image-layer" role="img" aria-label="영화 포스터"></div>':'<span>POSTER<br>IMAGE</span>';
-  var posterLayer=poster.querySelector('.crop-image-layer');if(posterLayer){posterLayer.style.backgroundImage='url("'+state.posterImage+'")';applyImageCrop(posterLayer,state.posterCrop)}
+  poster.innerHTML=state.posterImage?'<img class="crop-image-layer" src="'+state.posterImage+'" alt="영화 포스터">':'<span>POSTER<br>IMAGE</span>';
+  applyImageCrop(poster.querySelector('.crop-image-layer'),state.posterCrop);
   Object.keys(viewIds).forEach(function(key){document.getElementById(viewIds[key]).textContent=previewText(state[key],examples[key])});
   document.getElementById('reviewsView').dataset.title=previewText(state.reviewsLabel,examples.reviewsLabel);
   renderReviews();
@@ -176,6 +177,8 @@ document.getElementById('savePng').onclick=async function(){
   try{
     exportingBlankValues=true;render();
     if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await Promise.all(Array.from(sheet.querySelectorAll('img.crop-image-layer')).map(function(image){return image.decode?image.decode().catch(function(){}):Promise.resolve()}));
+    sheet.querySelectorAll('img.crop-image-layer').forEach(function(image){layoutCropImage(image,image._cropData||{zoom:100,x:50,y:50})});
     await new Promise(function(resolve){requestAnimationFrame(function(){requestAnimationFrame(resolve)})});
     var sheetArea=Math.max(1,sheet.scrollWidth*sheet.scrollHeight);
     var exportScale=Math.max(2,Math.min(4,Math.sqrt(40000000/sheetArea)));
