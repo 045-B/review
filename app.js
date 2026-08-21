@@ -119,6 +119,11 @@ function selectDirectImage(type,id){
   var data=directImageData(type,id);if(!data)return;
   activeDirectImage={type:type,id:id};data.element.classList.add('is-direct-active');data.element.focus({preventScroll:true});paintDirectImage(data);
 }
+function clearDirectImageSelection(){
+  activeDirectImage=null;
+  document.querySelectorAll('.is-direct-active').forEach(function(element){element.classList.remove('is-direct-active')});
+  document.getElementById('directEditStatus').textContent='이미지 클릭 · 드래그 이동 · 휠 확대/축소 · 방향키 미세조정';
+}
 function setupDirectElement(data){
   if(!data||!data.element)return;
   var element=data.element;element.classList.add('direct-edit-image');element.tabIndex=0;element.setAttribute('role','button');element.setAttribute('aria-label',data.label+' 위치와 크기 조정');
@@ -136,8 +141,13 @@ function setupDirectEditors(){
   setupDirectElement(directImageData('hero'));setupDirectElement(directImageData('poster'));
   state.reviewers.forEach(function(reviewer){setupDirectElement(directImageData('review',reviewer.id))});
 }
+document.addEventListener('pointerdown',function(event){
+  if(event.target.closest&&event.target.closest('.direct-edit-image'))return;
+  clearDirectImageSelection();
+});
 document.addEventListener('keydown',function(event){
   if(!activeDirectImage||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;
+  if(event.target.closest&&event.target.closest('input,textarea,select,button,[contenteditable="true"]'))return;
   var data=directImageData(activeDirectImage.type,activeDirectImage.id);if(!data)return;event.preventDefault();var step=event.shiftKey?5:1;
   if(event.key==='ArrowLeft')data.crop.x=clamp(Number(data.crop.x)+step,0,100);
   if(event.key==='ArrowRight')data.crop.x=clamp(Number(data.crop.x)-step,0,100);
