@@ -48,10 +48,10 @@ function renderReviews(){
   var editors=document.getElementById('reviewerEditors');
   editors.innerHTML=state.reviewers.map(function(r,index){
     var sample=examples.reviewers[index]||{name:'리뷰어 이름',rating:'★ 5',role:'역할 / 한 줄 정보',body:'영화를 보고 떠오른 감상을 입력하세요.'};
-    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<input data-review="'+r.id+'" data-key="name" value="'+esc(r.name)+'" placeholder="'+esc(sample.name)+'"></label><label>평점<input data-review="'+r.id+'" data-key="rating" value="'+esc(r.rating)+'" placeholder="'+esc(sample.rating)+'"></label></div><label>역할 / 한 줄 정보<input data-review="'+r.id+'" data-key="role" value="'+esc(r.role)+'" placeholder="'+esc(sample.role)+'"></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body" placeholder="'+esc(sample.body)+'">'+esc(r.body)+'</textarea></label></section>';
+    return '<section class="reviewer-editor" data-editor="'+r.id+'"><header><strong>REVIEWER '+String(index+1).padStart(2,'0')+'</strong><button data-remove="'+r.id+'">삭제</button></header><div class="avatar-row"><label>이름<textarea class="text-line" rows="1" data-review="'+r.id+'" data-key="name" placeholder="'+esc(sample.name)+'">'+esc(r.name)+'</textarea></label><label>평점<textarea class="text-line" rows="1" data-review="'+r.id+'" data-key="rating" placeholder="'+esc(sample.rating)+'">'+esc(r.rating)+'</textarea></label></div><label>역할 / 한 줄 정보<textarea class="text-line" rows="1" data-review="'+r.id+'" data-key="role" placeholder="'+esc(sample.role)+'">'+esc(r.role)+'</textarea></label><label>리뷰 이미지 (가로형 권장)<input type="file" accept="image/*" data-avatar="'+r.id+'"></label><label>리뷰 본문<textarea data-review="'+r.id+'" data-key="body" placeholder="'+esc(sample.body)+'">'+esc(r.body)+'</textarea></label></section>';
   }).join('');
   renderReviewPreview();
-  editors.querySelectorAll('[data-review]').forEach(function(field){field.oninput=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.review)});r[field.dataset.key]=field.value;save();renderReviewPreview()}});
+  editors.querySelectorAll('[data-review]').forEach(function(field){fitTextLine(field);field.oninput=function(){fitTextLine(field);var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.review)});r[field.dataset.key]=field.value;save();renderReviewPreview()}});
   editors.querySelectorAll('[data-avatar]').forEach(function(field){field.onchange=function(){var r=state.reviewers.find(function(x){return x.id===Number(field.dataset.avatar)});imageFile(field,function(value){r.avatar=value;save();renderReviews();selectDirectImage('review',r.id)})}});
   editors.querySelectorAll('[data-remove]').forEach(function(button){button.onclick=function(){if(state.reviewers.length===1)return alert('리뷰어는 한 명 이상 필요합니다.');state.reviewers=state.reviewers.filter(function(x){return x.id!==Number(button.dataset.remove)});save();renderReviews()}});
 }
@@ -82,14 +82,16 @@ ids.forEach(function(key){
   var input=document.getElementById(inputIds[key]);
   if(examples[key]&&key!=='font')input.placeholder=examples[key];
   input.value=state[key];
-  input.oninput=function(){state[key]=input.value;save();render()};
+  fitTextLine(input);
+  input.oninput=function(){fitTextLine(input);state[key]=input.value;save();render()};
 });
-document.getElementById('reviewsLabelInput').addEventListener('keydown',function(event){
-  if(event.key!=='Enter'||!event.shiftKey)return;
+function fitTextLine(field){if(!field||!field.classList.contains('text-line'))return;field.style.height='auto';field.style.height=Math.max(38,field.scrollHeight)+'px'}
+document.addEventListener('keydown',function(event){
+  if(event.key!=='Enter'||!event.shiftKey||event.target.tagName!=='TEXTAREA')return;
   event.preventDefault();
-  var start=this.selectionStart,end=this.selectionEnd;
-  this.setRangeText('\n',start,end,'end');
-  this.dispatchEvent(new Event('input',{bubbles:true}));
+  var field=event.target,start=field.selectionStart,end=field.selectionEnd;
+  field.setRangeText('\n',start,end,'end');
+  field.dispatchEvent(new Event('input',{bubbles:true}));
 });
 document.getElementById('heroUpload').onchange=function(){imageFile(this,function(value){state.heroImage=value;save();render();selectDirectImage('hero')})};
 document.getElementById('posterUpload').onchange=function(){imageFile(this,function(value){state.posterImage=value;save();render();selectDirectImage('poster')})};
