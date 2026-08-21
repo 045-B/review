@@ -107,3 +107,7 @@
 /* Keep review artwork flush with cards that grow with long copy. */
 .review-block{align-items:stretch}
 .review-block>.avatar-view{height:100%;min-height:155px;align-self:stretch}
+
+/* Prevent a raster seam between the hero and body in PNG exports. */
+.sheet-hero:after{bottom:-2px}
+.sheet-body{margin-top:-2px;padding-top:2px;background:rgb(var(--background-rgb))}
